@@ -1,0 +1,42 @@
+{
+    "name": "mont4/laravelmaker",
+    "description": ":description",
+    "license": "license",
+    "authors": [
+        {
+            "name": "Mohammad Montazeri",
+            "email": "mo121ntazeri@gmail.com",
+            "homepage": "https://github.com/Mont4"
+        }
+    ],
+    "homepage": "https://github.com/mont4/laravelmaker",
+    "keywords": ["Laravel", "LaravelMaker"],
+    "require": {
+        "illuminate/support": "~5",
+        "spatie/laravel-permission": "~2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~6.0",
+        "orchestra/testbench": "~3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Mont4\\LaravelMaker\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Mont4\\LaravelMaker\\Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Mont4\\LaravelMaker\\LaravelMakerServiceProvider"
+            ],
+            "aliases": {
+                "LaravelMaker": "Mont4\\LaravelMaker\\Facades\\LaravelMaker"
+            }
+        }
+    }
+}
