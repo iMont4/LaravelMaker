@@ -38,7 +38,8 @@ class SyncPermission extends Command
 	 */
 	public function handle()
 	{
-		$permissions = config('laravelmaker.permissions');
+		$permissions = config('laravel_maker.permissions');
+		dd($permissions);
 
 		$permissionsCount = count($permissions, COUNT_RECURSIVE);
 		$bar = $this->output->createProgressBar($permissionsCount);

@@ -51,7 +51,7 @@ class LaravelMakerServiceProvider extends ServiceProvider
 	 */
 	public function register()
 	{
-		$this->mergeConfigFrom(__DIR__ . '/../config/laravel_maker.php', 'laravelmaker');
+		$this->mergeConfigFrom(__DIR__ . '/../config/laravel_maker.php', 'laravel_maker');
 
 		// Register the service the package provides.
 		$this->app->singleton('laravelmaker', function ($app) {

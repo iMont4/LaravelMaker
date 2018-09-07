@@ -144,7 +144,7 @@ class MakeCommand extends Command
 	 */
 	private function makeTranslate($namespace, $name): void
 	{
-		foreach (config('laravelmaker.locales') as $locale) {
+		foreach (config('laravel_maker.locales') as $locale) {
 			if (!file_exists("resources/lang/{$locale}"))
 				mkdir("resources/lang/{$locale}", 0777, true);
 			$filePath = "resources/lang/{$locale}/responses.php";
@@ -178,7 +178,7 @@ class MakeCommand extends Command
 	 */
 	private function makePermissionTranslate($namespace, $name): void
 	{
-		foreach (config('laravelmaker.locales') as $locale) {
+		foreach (config('laravel_maker.locales') as $locale) {
 			if (!file_exists("resources/lang/{$locale}"))
 				mkdir("resources/lang/{$locale}", 0777, true);
 			$filePath = "resources/lang/{$locale}/permission.php";
@@ -224,7 +224,7 @@ class MakeCommand extends Command
 	 */
 	private function makePermissionList($namespace, $name, $super): void
 	{
-		$data = config('laravelmaker');
+		$data = config('laravel_maker');
 
 		$namespace = Str::snake(str_replace(['/', '\\'], '_', $namespace));
 		$name      = Str::snake($name);
