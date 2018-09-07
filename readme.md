@@ -12,7 +12,7 @@ Make and generate Laravel "Controller, Request, Model, Factory, Seed, Migration,
 Via Composer
 
 ``` bash
-$ composer require mont4/laravelmaker
+$ composer require mont4/laravelmaker:1.0.*
 $ php artisan vendor:publish --provider="Mont4\LaravelMaker\LaravelMakerServiceProvider" --tag="migrations"
 ```
 

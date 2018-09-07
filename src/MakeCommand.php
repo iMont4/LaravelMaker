@@ -253,7 +253,7 @@ class MakeCommand extends Command
 		$fileContent = $this->var_export($data);
 		$fileContent = sprintf("<?php\n\nreturn %s;", $fileContent);
 
-		$filePath = base_path('config/laravelmaker.php');
+		$filePath = base_path('config/laravel_maker.php');
 		file_put_contents($filePath, $fileContent);
 
 	}
