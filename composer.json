@@ -10,7 +10,7 @@
         }
     ],
     "homepage": "https://github.com/mont4/laravelmaker",
-    "keywords": ["Laravel", "LaravelMaker", "Make", "make:all", "laravel make all", "laravel policy permission", "make controller", "make model", "make migration", "make request", "make seed", "make factory" , "make translate", "make permission"],
+    "keywords": ["Laravel", "LaravelMaker", "Make", "laravel make all", "laravel policy permission", "make controller", "make model", "make migration", "make request", "make seed", "make factory" , "make translate", "make permission"],
     "require": {
         "illuminate/support": "~5",
         "spatie/laravel-permission": "~2",
