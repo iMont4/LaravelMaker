@@ -17,6 +17,10 @@ class MakeController
 
 	private $namespace;
 	private $name;
+
+	private $namespaceMessage;
+	private $nameMessage;
+
 	private $classNameValue;
 	private $permissionNameSpace;
 
@@ -31,6 +35,9 @@ class MakeController
 	{
 		$this->namespace = $namespace;
 		$this->name      = $name;
+
+		$this->namespaceMessage = strtolower(str_replace(['/', '\\'], '_', $namespace));
+		$this->nameMessage      = strtolower($name);
 
 		$this->classNameValue = sprintf('%sController', $this->name);
 
@@ -132,7 +139,7 @@ if (auth()->user()->can('store', {$this->name}::class)) {
 
 return [
 	'status'  => true,
-	'message' => trans('messages.{$this->namespace}.{$this->name}.store'),
+	'message' => trans('messages.{$this->namespaceMessage}.{$this->nameMessage}.store'),
 	'id'      => \${$variableName}->id,
 ];
 ";
@@ -225,7 +232,7 @@ if (auth()->user()->can('superUpdate', \${$variableName})) {
 
 return [
 	'status'  => true,
-	'message' => trans('messages.{$this->namespace}.{$this->name}.update'),
+	'message' => trans('messages.{$this->namespaceMessage}.{$this->nameMessage}.update'),
 	'id'      => \${$variableName}->id,
 ];
 ";
@@ -242,7 +249,7 @@ if (auth()->user()->can('update', \${$variableName})) {
 
 return [
 	'status'  => true,
-	'message' => trans('messages.{$this->namespace}.{$this->name}.update'),
+	'message' => trans('messages.{$this->namespaceMessage}.{$this->nameMessage}.update'),
 	'id'      => \${$variableName}->id,
 ];
 ";
@@ -282,7 +289,7 @@ if (auth()->user()->can('superDestroy', \${$variableName})) {
 
 return [
 	'status'  => true,
-	'message' => trans('messages.{$this->namespace}.{$this->name}.destroy'),
+	'message' => trans('messages.{$this->namespaceMessage}.{$this->nameMessage}.destroy'),
 	'id'      => \${$variableName}->id,
 ];
 ";
@@ -299,7 +306,7 @@ if (auth()->user()->can('destroy', \${$variableName})) {
 
 return [
 	'status'  => true,
-	'message' => trans('messages.{$this->namespace}.{$this->name}.destroy'),
+	'message' => trans('messages.{$this->namespaceMessage}.{$this->nameMessage}.destroy'),
 	'id'      => \${$variableName}->id,
 ];
 ";

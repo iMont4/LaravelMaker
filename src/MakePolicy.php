@@ -20,6 +20,7 @@ class MakePolicy
 	private $classNameValue;
 	private $namespaceValue;
 	private $permissionNameSpace;
+	private $permissionName;
 
 	private $userModelNamespace;
 	private $HandlesAuthorizationNamespace;
@@ -114,7 +115,8 @@ class MakePolicy
 		$this->classNameValue = sprintf('%sPolicy', $this->name);
 		$this->namespaceValue = sprintf('App\Policies\%s', str_replace('/', '\\', $this->namespace));
 
-		$this->permissionNameSpace = str_replace(['\\', '/'], '', $this->namespace);
+		$this->permissionNameSpace = strtolower(str_replace(['\\', '/'], '', $this->namespace));
+		$this->permissionName = strtolower($this->name);
 
 		$this->userModelNamespace            = config('auth.providers.users.model');
 		$this->HandlesAuthorizationNamespace = 'Illuminate\Auth\Access\HandlesAuthorization';
@@ -170,7 +172,7 @@ class MakePolicy
 
 		if ($specificUserPermission) {
 			$methodBody = "
-if (\$user->can('{$this->permissionNameSpace}.{$this->name}.{$methodName}')) {
+if (\$user->can('{$this->permissionNameSpace}.{$this->permissionName}.{$methodName}')) {
 	if (\${$secoundParamName}->user_id == \$user->id) {
 		return true;
 	}
@@ -180,7 +182,7 @@ return false;
 ";
 		} else {
 			$methodBody = "
-if (\$user->can('{$this->permissionNameSpace}.{$this->name}.{$methodName}'))
+if (\$user->can('{$this->permissionNameSpace}.{$this->permissionName}.{$methodName}'))
 {
 	return true;
 }

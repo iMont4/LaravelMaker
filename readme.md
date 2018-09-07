@@ -58,6 +58,6 @@ This plugin is open-sourced package licensed under the [MIT license](https://ope
 [link-packagist]: https://packagist.org/packages/mont4/laravelmaker
 [link-downloads]: https://packagist.org/packages/mont4/laravelmaker
 [link-travis]: https://travis-ci.org/mont4/laravelmaker
-[link-styleci]: https://styleci.io/repos/146006126
+[link-styleci]: https://github.styleci.io/repos/146006126
 [link-author]: https://github.com/Mont4
 [link-contributors]: ../../contributors]

@@ -2,6 +2,7 @@
 
 namespace Mont4\LaravelMaker;
 
+use function GuzzleHttp\Psr7\str;
 use Illuminate\Console\Command;
 
 class MakeCommand extends Command
@@ -46,7 +47,7 @@ class MakeCommand extends Command
 		list($name, $namespace) = $this->extract($name);
 
 		$needSuper = false;
-		if($this->option('super'))
+		if ($this->option('super'))
 			$needSuper = true;
 
 		$this->generateFilePath($namespace, $name);
@@ -65,6 +66,7 @@ class MakeCommand extends Command
 		$makePolicy->generate();
 
 		$this->makeTranslate($namespace, $name);
+		$this->makePermissionTranslate($namespace, $name);
 
 		$this->makePermissionList($namespace, $name, $needSuper);
 	}
@@ -149,12 +151,55 @@ class MakeCommand extends Command
 
 
 			$namespace               = strtolower(str_replace(['/', '\\'], '_', $namespace));
+			$name                    = strtolower($name);
 			$data[$namespace][$name] = [
 				'store'   => '',
 				'update'  => '',
 				'destroy' => '',
 			];
 
+
+			$fileContent = $this->var_export($data);
+			$fileContent = sprintf("<?php\n\nreturn %s;", $fileContent);
+
+			file_put_contents($filePath, $fileContent);
+		}
+	}
+
+	/**
+	 * @param $namespace
+	 * @param $name
+	 */
+	private function makePermissionTranslate($namespace, $name): void
+	{
+		foreach (config('laravelmaker.locales') as $locale) {
+			if (!file_exists("resources/lang/{$locale}"))
+				mkdir("resources/lang/{$locale}", 0777, true);
+			$filePath = "resources/lang/{$locale}/permission.php";
+
+			$data = [];
+			if (file_exists($filePath))
+				$data = include $filePath;
+
+
+			$namespace = strtolower(str_replace(['/', '\\'], '_', $namespace));
+			$name      = strtolower($name);
+
+			$data['namespace'][$namespace] = '';
+			$data['controller'][$name]     = '';
+
+			if (!isset($data['permissions']))
+				$data['permissions'] = [
+					'superIndex'   => '',
+					'index'        => '',
+					'store'        => '',
+					'superShow'    => '',
+					'show'         => '',
+					'superUpdate'  => '',
+					'update'       => '',
+					'superDestroy' => '',
+					'destroy'      => '',
+				];
 
 			$fileContent = $this->var_export($data);
 			$fileContent = sprintf("<?php\n\nreturn %s;", $fileContent);
@@ -173,6 +218,7 @@ class MakeCommand extends Command
 		$data = config('laravelmaker');
 
 		$namespace = strtolower(str_replace(['/', '\\'], '_', $namespace));
+		$name      = strtolower($name);
 
 		if ($super)
 			$data['permissions'][$namespace][$name] = [
@@ -252,7 +298,7 @@ class MakeCommand extends Command
 	{
 		switch (gettype($var)) {
 			case "string":
-				return '"' . addcslashes($var, "\\\$\"\r\n\t\v\f") . '"';
+				return "'" . addcslashes($var, "\\\$\"\r\n\t\v\f") . "'";
 			case "array":
 				$indexed = array_keys($var) === range(0, count($var) - 1);
 				$r       = [];
