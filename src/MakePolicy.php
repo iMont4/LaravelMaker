@@ -9,6 +9,7 @@
 namespace Mont4\LaravelMaker;
 
 
+use Illuminate\Support\Str;
 use Nette\PhpGenerator\PhpNamespace;
 
 class MakePolicy
@@ -115,8 +116,9 @@ class MakePolicy
 		$this->classNameValue = sprintf('%sPolicy', $this->name);
 		$this->namespaceValue = sprintf('App\Policies\%s', str_replace('/', '\\', $this->namespace));
 
-		$this->permissionNameSpace = strtolower(str_replace(['\\', '/'], '', $this->namespace));
-		$this->permissionName = strtolower($this->name);
+
+		$this->permissionNameSpace = Str::snake(str_replace(['/', '\\'], '_', $namespace));
+		$this->permissionName      = Str::snake($this->name);
 
 		$this->userModelNamespace            = config('auth.providers.users.model');
 		$this->HandlesAuthorizationNamespace = 'Illuminate\Auth\Access\HandlesAuthorization';

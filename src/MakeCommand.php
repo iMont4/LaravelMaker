@@ -4,6 +4,7 @@ namespace Mont4\LaravelMaker;
 
 use function GuzzleHttp\Psr7\str;
 use Illuminate\Console\Command;
+use Illuminate\Support\Str;
 
 class MakeCommand extends Command
 {
@@ -54,6 +55,8 @@ class MakeCommand extends Command
 		$this->generateNamespace($namespace, $name);
 
 		$this->makeModel();
+		$this->makeFactory();
+		$this->makeResource();
 
 		$this->makeSeed();
 
@@ -92,12 +95,22 @@ class MakeCommand extends Command
 		]);
 	}
 
-
-	private function makeController(): void
+	private function makeFactory(): void
 	{
-		$this->call('make:controller', [
-			'name'  => $this->filepaths['controller'],
-			'--api' => true,
+		$this->call('make:factory', [
+			'name' => $this->filepaths['factory'],
+			'-m'   => $this->filepaths['model'],
+		]);
+	}
+
+	private function makeResource(): void
+	{
+		$this->call('make:resource', [
+			'name' => $this->filepaths['resource'],
+		]);
+		$this->call('make:resource', [
+			'name' => $this->filepaths['collection'],
+			'-c'   => true,
 		]);
 	}
 
@@ -125,15 +138,6 @@ class MakeCommand extends Command
 		]);
 	}
 
-
-	private function makePolicy(): void
-	{
-		$this->call('make:policy', [
-			'name'    => $this->filepaths['policy'],
-			'--model' => $this->filepaths['model'],
-		]);
-	}
-
 	/**
 	 * @param $namespace
 	 * @param $name
@@ -150,13 +154,15 @@ class MakeCommand extends Command
 				$data = include $filePath;
 
 
-			$namespace               = strtolower(str_replace(['/', '\\'], '_', $namespace));
-			$name                    = strtolower($name);
-			$data[$namespace][$name] = [
-				'store'   => '',
-				'update'  => '',
-				'destroy' => '',
-			];
+			$namespace = Str::snake(str_replace(['/', '\\'], '_', $namespace));
+			$name      = Str::snake($name);
+
+			if (!isset($data[$namespace][$name]))
+				$data[$namespace][$name] = [
+					'store'   => '',
+					'update'  => '',
+					'destroy' => '',
+				];
 
 
 			$fileContent = $this->var_export($data);
@@ -182,11 +188,14 @@ class MakeCommand extends Command
 				$data = include $filePath;
 
 
-			$namespace = strtolower(str_replace(['/', '\\'], '_', $namespace));
-			$name      = strtolower($name);
+			$namespace = Str::snake(str_replace(['/', '\\'], '_', $namespace));
+			$name      = Str::snake($name);
 
-			$data['namespace'][$namespace] = '';
-			$data['controller'][$name]     = '';
+			if (!isset($data['namespace'][$namespace]))
+				$data['namespace'][$namespace] = '';
+
+			if (!isset($data['controller'][$namespace][$name]))
+				$data['controller'][$namespace][$name] = '';
 
 			if (!isset($data['permissions']))
 				$data['permissions'] = [
@@ -217,8 +226,8 @@ class MakeCommand extends Command
 	{
 		$data = config('laravelmaker');
 
-		$namespace = strtolower(str_replace(['/', '\\'], '_', $namespace));
-		$name      = strtolower($name);
+		$namespace = Str::snake(str_replace(['/', '\\'], '_', $namespace));
+		$name      = Str::snake($name);
 
 		if ($super)
 			$data['permissions'][$namespace][$name] = [
@@ -260,6 +269,9 @@ class MakeCommand extends Command
 		$this->filepaths['update_request'] = sprintf('%s/%s/Update%sRequest', $namespace, $name, $name);
 		$this->filepaths['store_request']  = sprintf('%s/%s/Store%sRequest', $namespace, $name, $name);
 		$this->filepaths['model']          = sprintf('Models/%s/%s', $namespace, $name);
+		$this->filepaths['factory']        = sprintf('%sFactory', $name);
+		$this->filepaths['resource']       = sprintf('%s/%s/%sResource', $namespace, $name, $name);
+		$this->filepaths['collection']     = sprintf('%s/%s/%sCollection', $namespace, $name, $name);
 		$this->filepaths['policy']         = sprintf('%s/%sPolicy', $namespace, $name);
 		$this->filepaths['seed']           = sprintf('%s_%sTableSeeder', str_replace('/', '_', $namespace), str_plural($name));
 		$this->filepaths['fake_seed']      = sprintf('Fake_%s_%sTableSeeder', str_replace('/', '_', $namespace), str_plural($name));
@@ -268,6 +280,8 @@ class MakeCommand extends Command
 		$this->fullFilepaths['update_request'] = sprintf('Http/Requests/%s/%s/Update%sRequest', $namespace, $name, $name);
 		$this->fullFilepaths['store_request']  = sprintf('Http/Requests/%s/%s/Store%sRequest', $namespace, $name, $name);
 		$this->fullFilepaths['model']          = sprintf('Models/%s/%s', $namespace, $name);
+		$this->fullFilepaths['resource']       = sprintf('Http/Resources/%s/%s/%sResource', $namespace, $name, $name);
+		$this->fullFilepaths['collection']     = sprintf('Http/Resources/%s/%s/%sCollection', $namespace, $name, $name);
 		$this->fullFilepaths['policy']         = sprintf('Policies/%s/%sPolicy', $namespace, $name);
 		$this->fullFilepaths['seed']           = sprintf('%s_%sSeeder', str_replace('/', '_', $namespace), $name);
 		$this->fullFilepaths['fake_seed']      = sprintf('Fake_%s_%sSeeder', str_replace('/', '_', $namespace), $name);
@@ -284,6 +298,8 @@ class MakeCommand extends Command
 		$this->fullNamespaces['update_request'] = sprintf('App\Http\Requests\%s\%s\Update%sRequest', $namespace, $name, $name);
 		$this->fullNamespaces['store_request']  = sprintf('App\Http\Requests\%s\%s\Store%sRequest', $namespace, $name, $name);
 		$this->fullNamespaces['model']          = sprintf('App\Models\%s\%s', $namespace, $name);
+		$this->fullNamespaces['resource']       = sprintf('App\Http\Resources\%s\%s\%sResource', $namespace, $name, $name);
+		$this->fullNamespaces['collection']     = sprintf('App\Http\Resources\%s\%s\%sCollection', $namespace, $name, $name);
 		$this->fullNamespaces['policy']         = sprintf('App\Policies\%s\%sPolicy', $namespace, $name);
 		$this->fullNamespaces['user_model']     = config('auth.providers.users.model');
 

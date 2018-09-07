@@ -9,6 +9,7 @@
 namespace Mont4\LaravelMaker;
 
 
+use Illuminate\Support\Str;
 use Nette\PhpGenerator\PhpNamespace;
 
 class MakeController
@@ -36,12 +37,13 @@ class MakeController
 		$this->namespace = $namespace;
 		$this->name      = $name;
 
-		$this->namespaceMessage = strtolower(str_replace(['/', '\\'], '_', $namespace));
-		$this->nameMessage      = strtolower($name);
+
+		$this->namespaceMessage = Str::snake(str_replace(['/', '\\'], '_', $namespace));
+		$this->nameMessage      = Str::snake($name);
 
 		$this->classNameValue = sprintf('%sController', $this->name);
 
-		$this->permissionNameSpace = str_replace(['\\', '/'], '', $this->namespace);
+		$this->permissionNameSpace = Str::snake(str_replace(['/', '\\'], '_', $namespace));
 
 		$this->controllerNamespace = 'App\Http\Controllers\Controller';
 
@@ -58,7 +60,9 @@ class MakeController
 		$namespace->addUse($this->fullNamespaces['model'])
 			->addUse($this->fullNamespaces['controller'])
 			->addUse($this->fullNamespaces['store_request'])
-			->addUse($this->fullNamespaces['update_request']);
+			->addUse($this->fullNamespaces['update_request'])
+			->addUse($this->fullNamespaces['resource'])
+			->addUse($this->fullNamespaces['collection']);
 
 		$this->class = $namespace->addClass($this->classNameValue)
 			->setExtends($this->controllerNamespace);
@@ -85,29 +89,43 @@ class MakeController
 
 	private function addIndexMethod()
 	{
+		$variableName = str_plural(lcfirst($this->name));
+
 		$method = $this->class->addMethod('index')
 			->setVisibility('public');
 
+		$collection = explode('\\', $this->fullNamespaces['collection']);
+		$collection = array_pop($collection);
+
 		$method->addComment('');
-		$method->addComment('@return mixed');
+		$method->addComment("@return {$collection}");
 
 		if ($this->needSuper) {
 			$methodBody = "
 if (auth()->user()->can('superIndex', {$this->name}::class)) {
-
+	/** @var {$this->name}[] \${$variableName} */
+	\${$variableName} = {$this->name}::get();
 } elseif (auth()->user()->can('index', {$this->name}::class)) {
-
+	/** @var {$this->name}[] \${$variableName} */
+	\${$variableName} = {$this->name}::get();
 } else {
 	abort(500);
 }
+
+\$collection = new {$collection}(\${$variableName});
+return \$collection;
 ";
 		} else {
 			$methodBody = "
 if (auth()->user()->can('index', {$this->name}::class)) {
-
+	/** @var {$this->name}[] \${$variableName} */
+	\${$variableName} = {$this->name}::get();
 } else {
 	abort(500);
 }
+
+\$collection = new {$collection}(\${$variableName});
+return \$collection;
 ";
 		}
 
@@ -132,10 +150,14 @@ if (auth()->user()->can('index', {$this->name}::class)) {
 		$method->addComment('@return mixed');
 		$methodBody = "
 if (auth()->user()->can('store', {$this->name}::class)) {
-
+	
 } else {
 	abort(500);
 }
+
+\${$variableName} = new {$this->name}();
+\${$variableName}->fill(\$request);
+\${$variableName}->save();
 
 return [
 	'status'  => true,
@@ -158,9 +180,11 @@ return [
 		$method->addComment("@param  int \$id")
 			->addParameter('id');
 
+		$resource = explode('\\', $this->fullNamespaces['resource']);
+		$resource = array_pop($resource);
 
 		$method->addComment('');
-		$method->addComment('@return mixed');
+		$method->addComment("@return {$resource}");
 
 		if ($this->needSuper) {
 			$methodBody = "
@@ -175,7 +199,8 @@ if (auth()->user()->can('superShow', \${$variableName})) {
 	abort(500);
 }
 
-return \${$variableName};
+\${$resource} = new $resource(\${$variableName});
+return \${$resource};
 ";
 		} else {
 			$methodBody = "
@@ -188,7 +213,8 @@ if (auth()->user()->can('show', \${$variableName})) {
 	abort(500);
 }
 
-return \${$variableName};
+\${$resource} = new $resource(\${$variableName});
+return \${$resource};
 ";
 		}
 
@@ -223,9 +249,11 @@ return \${$variableName};
 \${$variableName} = {$this->name}::findOrFail(\$id);
 
 if (auth()->user()->can('superUpdate', \${$variableName})) {
-
+	\${$variableName}->fill(\$request);
+	\${$variableName}->save();
 } elseif (auth()->user()->can('update', \${$variableName})) {
-
+	\${$variableName}->fill(\$request);
+	\${$variableName}->save();
 } else {
 	abort(500);
 }
@@ -242,7 +270,8 @@ return [
 \${$variableName} = {$this->name}::findOrFail(\$id);
 
 if (auth()->user()->can('update', \${$variableName})) {
-
+	\${$variableName}->fill(\$request);
+	\${$variableName}->save();
 } else {
 	abort(500);
 }
@@ -287,6 +316,8 @@ if (auth()->user()->can('superDestroy', \${$variableName})) {
 	abort(500);
 }
 
+\${$variableName}->delete();
+
 return [
 	'status'  => true,
 	'message' => trans('messages.{$this->namespaceMessage}.{$this->nameMessage}.destroy'),
@@ -303,6 +334,8 @@ if (auth()->user()->can('destroy', \${$variableName})) {
 } else {
 	abort(500);
 }
+
+\${$variableName}->delete();
 
 return [
 	'status'  => true,

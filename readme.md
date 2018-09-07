@@ -5,7 +5,7 @@
 [![Build Status][ico-travis]][link-travis]
 [![StyleCI][ico-styleci]][link-styleci]
 
-This is where your description should go. Take a look at [contributing.md](contributing.md) to see a to do list.
+Make and generate Laravel "Controller, Request, Model, Factory, Seed, Migration, Translation Policy & Permissions" compatible.
 
 ## Installation
 
@@ -19,7 +19,7 @@ $ php artisan vendor:publish --provider="Mont4\LaravelMaker\LaravelMakerServiceP
 ## Usage
 
 ``` bash
-$ php artisan make:all Example/Example
+$ php artisan make:all NamespaceExample/NameExample
 $ php artisan permission:sync
 ```
 ## Change log
