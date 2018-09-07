@@ -38,12 +38,12 @@ class MakeController
 		$this->name      = $name;
 
 
-		$this->namespaceMessage = Str::snake(str_replace(['/', '\\'], '_', $namespace));
+		$this->namespaceMessage = Str::snake(str_replace(['/', '\\'], '_', $namespace)) ?: 'default';
 		$this->nameMessage      = Str::snake($name);
 
 		$this->classNameValue = sprintf('%sController', $this->name);
 
-		$this->permissionNameSpace = Str::snake(str_replace(['/', '\\'], '_', $namespace));
+		$this->permissionNameSpace = Str::snake(str_replace(['/', '\\'], '_', $namespace)) ?: 'default';
 
 		$this->controllerNamespace = 'App\Http\Controllers\Controller';
 

@@ -5,7 +5,7 @@
 [![Build Status][ico-travis]][link-travis]
 [![StyleCI][ico-styleci]][link-styleci]
 
-Make and generate Laravel "Controller, Request, Model, Factory, Seed, Migration, Translation Policy & Permissions" compatible.
+Make and generate Laravel "Controller, Request, Model, Factory, Seed, Migration, Translation, Policy & Permissions" compatible.
 
 ## Installation
 
