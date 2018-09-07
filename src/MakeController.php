@@ -156,7 +156,7 @@ if (auth()->user()->can('store', {$this->name}::class)) {
 }
 
 \${$variableName} = new {$this->name}();
-\${$variableName}->fill(\$request);
+\${$variableName}->fill(\$request->all());
 \${$variableName}->save();
 
 return [
@@ -249,10 +249,10 @@ return \${$resource};
 \${$variableName} = {$this->name}::findOrFail(\$id);
 
 if (auth()->user()->can('superUpdate', \${$variableName})) {
-	\${$variableName}->fill(\$request);
+	\${$variableName}->fill(\$request->all());
 	\${$variableName}->save();
 } elseif (auth()->user()->can('update', \${$variableName})) {
-	\${$variableName}->fill(\$request);
+	\${$variableName}->fill(\$request->all());
 	\${$variableName}->save();
 } else {
 	abort(500);
@@ -270,7 +270,7 @@ return [
 \${$variableName} = {$this->name}::findOrFail(\$id);
 
 if (auth()->user()->can('update', \${$variableName})) {
-	\${$variableName}->fill(\$request);
+	\${$variableName}->fill(\$request->all());
 	\${$variableName}->save();
 } else {
 	abort(500);

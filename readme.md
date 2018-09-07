@@ -1,6 +1,6 @@
 # LaravelMaker
 
-[![Latest Version on Packagist][ico-version]][link-packagist]
+[![stable][ico-version]][link-packagist]
 [![Total Downloads][ico-downloads]][link-downloads]
 [![Build Status][ico-travis]][link-travis]
 [![StyleCI][ico-styleci]][link-styleci]
@@ -53,7 +53,7 @@ This plugin is open-sourced package licensed under the [MIT license](https://ope
 [ico-version]: https://img.shields.io/packagist/v/mont4/laravelmaker.svg?style=flat-square
 [ico-downloads]: https://img.shields.io/packagist/dt/mont4/laravelmaker.svg?style=flat-square
 [ico-travis]: https://img.shields.io/travis/mont4/laravelmaker/master.svg?style=flat-square
-[ico-styleci]: https://styleci.io/repos/12345678/shield
+[ico-styleci]: https://styleci.io/repos/146006126/shield
 
 [link-packagist]: https://packagist.org/packages/mont4/laravelmaker
 [link-downloads]: https://packagist.org/packages/mont4/laravelmaker

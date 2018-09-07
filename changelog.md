@@ -1,8 +1,16 @@
 # Changelog
 
-All notable changes to `LaravelMaker` will be documented in this file.
+All notable changes to `LaravelMaker`.
 
-## Version 1.0
+## Version 1.0.4
 
 ### Added
-- Everything
+- Controller
+- Request
+- Model
+- Factory
+- Seed
+- Migration
+- Translation
+- Policy
+- Permissions
