@@ -42,12 +42,13 @@ If you discover any security related issues, please email author email instead o
 
 ## Credits
 
-- [Mohammad Montazeri](https://github.com/Mont4)
+- [Mohammad Montazeri][link-author]
 - [Mahdi Yousefi](https://github.com/MahdiY)
+- [Contributors][link-contributors]
 
 ## License
 
-license. Please see the [license file](license.md) for more information.
+This plugin is open-sourced package licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
 [ico-version]: https://img.shields.io/packagist/v/mont4/laravelmaker.svg?style=flat-square
 [ico-downloads]: https://img.shields.io/packagist/dt/mont4/laravelmaker.svg?style=flat-square
@@ -57,6 +58,6 @@ license. Please see the [license file](license.md) for more information.
 [link-packagist]: https://packagist.org/packages/mont4/laravelmaker
 [link-downloads]: https://packagist.org/packages/mont4/laravelmaker
 [link-travis]: https://travis-ci.org/mont4/laravelmaker
-[link-styleci]: https://styleci.io/repos/12345678
-[link-author]: https://github.com/mont4
+[link-styleci]: https://styleci.io/repos/146006126
+[link-author]: https://github.com/Mont4
 [link-contributors]: ../../contributors]
