@@ -62,6 +62,8 @@ class MakeCommand extends Command
 
 		$this->makeRequest();
 
+		$this->makeTest();
+
 		$makePolicy = new MakePolicy($namespace, $name, $this->fullNamespaces, $this->namespaces, $this->fullFilepaths, $needSuper);
 		$makePolicy->generate();
 
@@ -135,6 +137,19 @@ class MakeCommand extends Command
 
 		$this->call('make:request', [
 			'name' => $this->filepaths['update_request'],
+		]);
+	}
+
+
+	private function makeTest(): void
+	{
+		$this->call('make:test', [
+			'name' => $this->filepaths['test'],
+		]);
+
+		$this->call('make:test', [
+			'name' => $this->filepaths['test'],
+			'--unit' => true,
 		]);
 	}
 
@@ -265,7 +280,7 @@ class MakeCommand extends Command
 	 */
 	private function generateFilePath($namespace, $name): void
 	{
-		if($namespace){
+		if ($namespace) {
 			$this->filepaths['controller']     = sprintf('%s/%sController', $namespace, $name);
 			$this->filepaths['update_request'] = sprintf('%s/%s/Update%sRequest', $namespace, $name, $name);
 			$this->filepaths['store_request']  = sprintf('%s/%s/Store%sRequest', $namespace, $name, $name);
@@ -276,6 +291,7 @@ class MakeCommand extends Command
 			$this->filepaths['policy']         = sprintf('%s/%sPolicy', $namespace, $name);
 			$this->filepaths['seed']           = sprintf('%s_%sTableSeeder', str_replace('/', '_', $namespace), str_plural($name));
 			$this->filepaths['fake_seed']      = sprintf('Fake_%s_%sTableSeeder', str_replace('/', '_', $namespace), str_plural($name));
+			$this->filepaths['test']           = sprintf('%s/%sTest', $namespace, $name);
 
 			$this->fullFilepaths['controller']     = sprintf('Http/Controllers/%s/%sController', $namespace, $name);
 			$this->fullFilepaths['update_request'] = sprintf('Http/Requests/%s/%s/Update%sRequest', $namespace, $name, $name);
@@ -286,7 +302,7 @@ class MakeCommand extends Command
 			$this->fullFilepaths['policy']         = sprintf('Policies/%s/%sPolicy', $namespace, $name);
 			$this->fullFilepaths['seed']           = sprintf('%s_%sSeeder', str_replace('/', '_', $namespace), $name);
 			$this->fullFilepaths['fake_seed']      = sprintf('Fake_%s_%sSeeder', str_replace('/', '_', $namespace), $name);
-		}else{
+		} else {
 			$this->filepaths['controller']     = sprintf('%sController', $name);
 			$this->filepaths['update_request'] = sprintf('%s/Update%sRequest', $name, $name);
 			$this->filepaths['store_request']  = sprintf('%s/Store%sRequest', $name, $name);
@@ -297,6 +313,7 @@ class MakeCommand extends Command
 			$this->filepaths['policy']         = sprintf('%sPolicy', $name);
 			$this->filepaths['seed']           = sprintf('%sTableSeeder', str_plural($name));
 			$this->filepaths['fake_seed']      = sprintf('Fake_%sTableSeeder', str_plural($name));
+			$this->filepaths['test']           = sprintf('%sTest', $name);
 
 			$this->fullFilepaths['controller']     = sprintf('Http/Controllers/%sController', $name);
 			$this->fullFilepaths['update_request'] = sprintf('Http/Requests/%s/Update%sRequest', $name, $name);
@@ -316,7 +333,7 @@ class MakeCommand extends Command
 	 */
 	private function generateNamespace($namespace, $name): void
 	{
-		if($namespace){
+		if ($namespace) {
 			$namespace                              = str_replace('/', '\\', $namespace);
 			$this->fullNamespaces['controller']     = sprintf('App\Http\Controllers\%s\%sController', $namespace, $name);
 			$this->fullNamespaces['update_request'] = sprintf('App\Http\Requests\%s\%s\Update%sRequest', $namespace, $name, $name);
@@ -332,7 +349,7 @@ class MakeCommand extends Command
 			$this->namespaces['store_request']  = sprintf('App\Http\Requests\%s\%s', $namespace, $name);
 			$this->namespaces['model']          = sprintf('App\Models\%s', $namespace);
 			$this->namespaces['policy']         = sprintf('App\Policies\%s', $namespace);
-		}else{
+		} else {
 			$this->fullNamespaces['controller']     = sprintf('App\Http\Controllers\%sController', $name);
 			$this->fullNamespaces['update_request'] = sprintf('App\Http\Requests\%s\Update%sRequest', $name, $name);
 			$this->fullNamespaces['store_request']  = sprintf('App\Http\Requests\%s\Store%sRequest', $name, $name);
