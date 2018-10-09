@@ -148,7 +148,7 @@ class MakeCommand extends Command
 		]);
 
 		$this->call('make:test', [
-			'name' => $this->filepaths['test'],
+			'name'   => $this->filepaths['test'],
 			'--unit' => true,
 		]);
 	}
@@ -241,29 +241,33 @@ class MakeCommand extends Command
 	{
 		$data = config('laravel_maker');
 
-		$namespace = Str::snake(str_replace(['/', '\\'], '_', $namespace));
-		$name      = Str::snake($name);
+		$guardNames = array_keys(config('auth.guards'));
+		$namespace  = Str::snake(str_replace(['/', '\\'], '_', $namespace));
+		$name       = Str::snake($name);
 
-		if ($super)
-			$data['permissions'][$namespace][$name] = [
-				'superIndex',
-				'index',
-				'store',
-				'superShow',
-				'show',
-				'superUpdate',
-				'update',
-				'superDestroy',
-				'destroy',
-			];
-		else
-			$data['permissions'][$namespace][$name] = [
-				'index',
-				'store',
-				'show',
-				'update',
-				'destroy',
-			];
+		foreach ($guardNames as $guardName) {
+			if ($super)
+				$data['permissions'][$guardName][$namespace][$name] = [
+					'superIndex',
+					'index',
+					'store',
+					'superShow',
+					'show',
+					'superUpdate',
+					'update',
+					'superDestroy',
+					'destroy',
+				];
+			else
+				$data['permissions'][$guardName][$namespace][$name] = [
+					'index',
+					'store',
+					'show',
+					'update',
+					'destroy',
+				];
+		}
+
 
 		$fileContent = $this->var_export($data);
 		$fileContent = sprintf("<?php\n\nreturn %s;", $fileContent);
@@ -342,7 +346,7 @@ class MakeCommand extends Command
 			$this->fullNamespaces['resource']       = sprintf('App\Http\Resources\%s\%s\%sResource', $namespace, $name, $name);
 			$this->fullNamespaces['collection']     = sprintf('App\Http\Resources\%s\%s\%sCollection', $namespace, $name, $name);
 			$this->fullNamespaces['policy']         = sprintf('App\Policies\%s\%sPolicy', $namespace, $name);
-			$this->fullNamespaces['user_model']     = config('auth.providers.users.model');
+			$this->fullNamespaces['user_model']     = config('laravel_maker.user_model');
 
 			$this->namespaces['controller']     = sprintf('App\Http\Controllers\%s', $namespace);
 			$this->namespaces['update_request'] = sprintf('App\Http\Requests\%s\%s', $namespace, $name);
@@ -357,7 +361,7 @@ class MakeCommand extends Command
 			$this->fullNamespaces['resource']       = sprintf('App\Http\Resources\%s\%sResource', $name, $name);
 			$this->fullNamespaces['collection']     = sprintf('App\Http\Resources\%s\%sCollection', $name, $name);
 			$this->fullNamespaces['policy']         = sprintf('App\Policies\%sPolicy', $name);
-			$this->fullNamespaces['user_model']     = config('auth.providers.users.model');
+			$this->fullNamespaces['user_model']     = config('laravel_maker.user_model');
 
 			$this->namespaces['controller']     = sprintf('App\Http\Controllers');
 			$this->namespaces['update_request'] = sprintf('App\Http\Requests\%s', $name);

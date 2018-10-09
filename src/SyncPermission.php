@@ -38,33 +38,39 @@ class SyncPermission extends Command
 	 */
 	public function handle()
 	{
-		$permissions = config('laravel_maker.permissions');
+		$guardNames = config('laravel_maker.permissions');
 
-		$permissionsCount = count($permissions, COUNT_RECURSIVE);
-		$bar = $this->output->createProgressBar($permissionsCount);
+		$permissionsCount = count($guardNames, COUNT_RECURSIVE);
+		$bar              = $this->output->createProgressBar($permissionsCount);
 
 		$count = 0;
-		foreach ($permissions as $namespace => $controllers) {
-			foreach ($controllers as $controller => $permissions) {
-				foreach ($permissions as $permission) {
+		foreach ($guardNames as $guardName => $namespaces) {
+			foreach ($namespaces as $namespace => $controllers) {
+				foreach ($controllers as $controller => $permissions) {
+					foreach ($permissions as $permission) {
 
-					$permissionClass = config('permission.models.permission');
+						$permissionClass = config('permission.models.permission');
 
-					$permissionEntity = call_user_func([$permissionClass, 'query']);
+						$permissionEntity = call_user_func([$permissionClass, 'query']);
 
-					$permissionName      = sprintf("%s.%s.%s", $namespace, $controller, $permission);
-					$availablePermission = $permissionEntity->where('name', '=', $permissionName)
-						->first();
+						$permissionName      = sprintf("%s.%s.%s", $namespace, $controller, $permission);
+						$availablePermission = $permissionEntity->where('name', '=', $permissionName)
+							->where('guard_name', '=', $guardName)
+							->first();
 
-					if (!$availablePermission) {
-						$permissionEntity->create([
-							'namespace'  => $namespace,
-							'controller' => $controller,
-							'permission' => $permission,
-							'name'       => $permissionName,
-						]);
+						if (!$availablePermission) {
+							$permissionEntity->create([
+								'guard_name' => $guardName,
+								'namespace'  => $namespace,
+								'controller' => $controller,
+								'permission' => $permission,
+								'name'       => $permissionName,
+							]);
 
-						$count++;
+							$count++;
+						}
+
+						$bar->advance();
 					}
 
 					$bar->advance();
@@ -72,8 +78,6 @@ class SyncPermission extends Command
 
 				$bar->advance();
 			}
-
-			$bar->advance();
 		}
 		$bar->finish();
 

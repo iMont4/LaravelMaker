@@ -6,6 +6,8 @@ return [
 		'fa',
 	],
 
+	'user_model' => App\User::class,
+
 	'permissions' => [
 
 	],
