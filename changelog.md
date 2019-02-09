@@ -1,21 +1,18 @@
 # Changelog
 
-All notable changes to `LaravelMaker`.
+`LaravelMaker` changes.
 
-## Version 1.0.11
-
-### Added
-- Test & Unit Test
-
-## Version 1.0.10
+## Version 2.0
 
 ### Added
-- Controller
-- Request
-- Model
-- Factory
-- Seed
-- Migration
-- Translation
-- Policy
-- Permissions
+- controller stub
+- model stub
+- policy stub
+- store request stub
+- update request stub
+- index resource stub
+- show resource stub
+- list resource stub
+- super controller stub
+- super policy stub
+- super update request stub

@@ -1,0 +1,173 @@
+<?php
+
+namespace App\Http\Controllers\DummyNamespace;
+
+use App\Http\Controllers\Controller;
+use App\Http\Requests\DummyNamespace\DummyName\StoreDummyNameRequest;
+use App\Http\Requests\DummyNamespace\DummyName\UpdateDummyNameRequest;
+use App\Http\Resources\DummyNamespace\DummyName\DummyNameIndexResource;
+use App\Http\Resources\DummyNamespace\DummyName\DummyNameShowResource;
+use App\Http\Resources\DummyNamespace\DummyName\DummyNameListResource;
+use App\Models\DummyNamespace\DummyName;
+
+class DummyNameController extends Controller
+{
+	/**
+	 * @return DummyNameIndexResource
+	 */
+	public function index()
+	{
+		if (!auth()->user()->can('index', DummyName::class)) {
+			abort(500);
+		}
+
+		/** @var DummyName[] $dummyNames */
+		$dummyNames = DummyName::filter();
+
+		/** @var DummyNameIndexResource $dummyNamesCollection */
+		$dummyNamesCollection = DummyNameIndexResource::collection($dummyNames);
+
+		return $dummyNamesCollection;
+	}
+
+
+	/**
+	 * @param  StoreDummyNameRequest $request
+	 *
+	 * @return mixed
+	 */
+	public function store(StoreDummyNameRequest $request)
+	{
+		// prepare data
+		$attributes = $request->all();
+
+		\DB::beginTransaction();
+		try {
+			$dummyName = new DummyName();
+			$dummyName->fill($attributes);
+			$dummyName->save();
+
+			\DB::commit();
+
+			return [
+				'status'  => true,
+				'message' => trans('responses.dummyNamespace.dummyName.store'),
+				'id'      => $dummyName->id,
+			];
+		} catch (\Exception $ex) {
+			\DB::rollBack();
+
+			return [
+				'status'  => true,
+				'message' => $ex->getMessage(),
+			];
+		}
+	}
+
+
+	/**
+	 * @param  int $id
+	 *
+	 * @return DummyNameShowResource
+	 */
+	public function show($id)
+	{
+		/** @var DummyName $dummyName */
+		$dummyName = DummyName::findOrFail($id);
+
+		if (!auth()->user()->can('show', $dummyName)) {
+			abort(500);
+		}
+
+		$DummyNameResource = new DummyNameShowResource($dummyName);
+
+		return $DummyNameResource;
+	}
+
+
+	/**
+	 * @param  UpdateDummyNameRequest $request
+	 * @param  int                    $id
+	 *
+	 * @return mixed
+	 */
+	public function update(UpdateDummyNameRequest $request, $id)
+	{
+		/** @var DummyName $dummyName */
+		$dummyName = DummyName::findOrFail($id);
+
+		// prepare data
+		$attributes = $request->all();
+
+		\DB::beginTransaction();
+		try {
+			$dummyName->fill($attributes);
+			$dummyName->save();
+
+			\DB::commit();
+
+			return [
+				'status'  => true,
+				'message' => trans('responses.dummyNamespace.dummyName.update'),
+				'id'      => $dummyName->id,
+			];
+		} catch (\Exception $ex) {
+			\DB::rollBack();
+
+			\Log::error($ex->getMessage(), [
+				'user' => auth()->user(),
+			]);
+
+			return [
+				'status'  => false,
+				'message' => trans('responses.error'),
+			];
+		}
+	}
+
+
+	/**
+	 * @param  int $id
+	 *
+	 * @return mixed
+	 * @throws \Exception
+	 */
+	public function destroy($id)
+	{
+		/** @var DummyName $dummyName */
+		$dummyName = DummyName::findOrFail($id);
+
+		if (!auth()->user()->can('destroy', $dummyName)) {
+			abort(500);
+		}
+
+		$dummyName->delete();
+
+		return [
+			'status'  => true,
+			'message' => trans('responses.dummyNamespace.dummyName.destroy'),
+			'id'      => $dummyName->id,
+		];
+	}
+
+
+	/**
+	 * @return DummyNameListResource
+	 */
+	public function list()
+	{
+		if (!auth()->user()->can('list', DummyName::class)) {
+			abort(500);
+		}
+
+		/** @var DummyName $dummyNames */
+		$dummyNames = DummyName::query();
+
+		$dummyNames = $dummyNames->get();
+
+		/** @var DummyNameListResource $dummyNameListResource */
+		$dummyNameListResource = DummyNameListResource::collection($dummyNames);
+
+		return $dummyNameListResource;
+	}
+}

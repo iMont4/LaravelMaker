@@ -1,0 +1,104 @@
+<?php
+
+namespace App\Policies\User;
+
+use App\Models\DummyNamespace\DummyName;
+use App\Models\User\User;
+use Illuminate\Auth\Access\HandlesAuthorization;
+
+class DummyNamePolicy
+{
+	use HandlesAuthorization;
+
+	/**
+	 * @param  \App\Models\User\User $user
+	 *
+	 * @return mixed
+	 */
+	public function index(User $user)
+	{
+		if ($user->can('dummyNamespace.dummyName.index')) {
+			return true;
+		}
+
+		return false;
+	}
+
+
+	/**
+	 * @param  \App\Models\User\User $user
+	 *
+	 * @return mixed
+	 */
+	public function store(User $user)
+	{
+		if ($user->can('dummyNamespace.dummyName.store')) {
+			return true;
+		}
+
+		return false;
+	}
+
+
+	/**
+	 * @param  \App\Models\User\User $user
+	 * @param  \App\Models\DummyNamespace\DummyName $dummyName
+	 *
+	 * @return mixed
+	 */
+	public function show(User $user, DummyName $dummyName)
+	{
+		if ($user->can('dummyNamespace.dummyName.show')) {
+			return true;
+		}
+
+		return false;
+	}
+
+
+	/**
+	 * @param  \App\Models\User\User $user
+	 * @param  \App\Models\DummyNamespace\DummyName $dummyName
+	 *
+	 * @return mixed
+	 */
+	public function update(User $user, DummyName $dummyName)
+	{
+		if ($user->can('dummyNamespace.dummyName.update')) {
+			return true;
+		}
+
+		return false;
+	}
+
+
+	/**
+	 * @param  \App\Models\User\User $user
+	 * @param  \App\Models\DummyNamespace\DummyName $dummyName
+	 *
+	 * @return mixed
+	 */
+	public function destroy(User $user, DummyName $dummyName)
+	{
+		if ($user->can('dummyNamespace.dummyName.destroy')) {
+			return true;
+		}
+
+		return false;
+	}
+
+
+	/**
+	 * @param  \App\Models\User\User $user
+	 *
+	 * @return mixed
+	 */
+	public function list(User $user)
+	{
+		if ($user->can('dummyNamespace.dummyName.list')) {
+			return true;
+		}
+
+		return false;
+	}
+}

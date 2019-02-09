@@ -1,0 +1,32 @@
+<?php
+
+namespace App\Http\Resources\DummyNamespace\DummyName;
+
+use App\Models\DummyNamespace\DummyName;
+use Illuminate\Http\Resources\Json\JsonResource;
+
+/**
+ * Class DummyNameShowResource
+ *
+ * @package App\Http\Resources\DummyNamespace\DummyName
+ *
+ * @mixin DummyName
+ */
+class DummyNameShowResource extends JsonResource
+{
+	/**
+	 * Transform the resource into an array.
+	 *
+	 * @param  \Illuminate\Http\Request $request
+	 *
+	 * @return array
+	 */
+	public function toArray($request)
+	{
+		$response = [
+			'id' => $this->id,
+		];
+
+		return $response;
+	}
+}
