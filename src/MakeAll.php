@@ -95,6 +95,9 @@ class MakeAll extends Command
 		}
 		$this->table(['Class', 'Path'], $data);
 
+		// set full file path
+		$this->fullFilePaths = array_map('app_path', $this->fullFilePaths);
+
 		// confirm namespace and name
 		if (!$this->confirm("Do you wish to continue with '<fg=red>{$this->namespace} \\ {$this->model}{$super}</>'?")) {
 			$this->error('Finished !!!');
@@ -167,8 +170,6 @@ class MakeAll extends Command
 	 */
 	private function generateFile($class) :void
 	{
-		$this->fullFilePaths = array_map('app_path', $this->fullFilePaths);
-
 		$this->generateDirectory($class);
 
 		// prepare replaces
