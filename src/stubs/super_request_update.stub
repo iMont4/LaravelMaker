@@ -23,7 +23,7 @@ class UpdateDummyNameRequest extends FormRequest
 	public function authorize()
 	{
 		/** @var DummyName $dummyName */
-		$dummyName = DummyName::findOrFail($this->route('dummyName'));
+		$dummyName = DummyName::findOrFail($this->route('dummy_name'));
 
 		if (auth()->user()->can('update', $dummyName)) {
 			return true;

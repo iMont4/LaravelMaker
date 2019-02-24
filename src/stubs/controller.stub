@@ -51,7 +51,7 @@ class DummyNameController extends Controller
 
 			return [
 				'status'  => true,
-				'message' => trans('responses.dummyNamespace.dummyName.store'),
+				'message' => trans('responses.dummy_namespace.dummy_name.store'),
 				'id'      => $dummyName->id,
 			];
 		} catch (\Exception $ex) {
@@ -108,7 +108,7 @@ class DummyNameController extends Controller
 
 			return [
 				'status'  => true,
-				'message' => trans('responses.dummyNamespace.dummyName.update'),
+				'message' => trans('responses.dummy_namespace.dummy_name.update'),
 				'id'      => $dummyName->id,
 			];
 		} catch (\Exception $ex) {
@@ -145,7 +145,7 @@ class DummyNameController extends Controller
 
 		return [
 			'status'  => true,
-			'message' => trans('responses.dummyNamespace.dummyName.destroy'),
+			'message' => trans('responses.dummy_namespace.dummy_name.destroy'),
 			'id'      => $dummyName->id,
 		];
 	}

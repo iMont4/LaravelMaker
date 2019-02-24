@@ -1,0 +1,10 @@
+<?php
+
+namespace App\Filters\DummyNamespace;
+
+use Mont4\Filter\Filter;
+
+class DummyNameFilter extends Filter
+{
+	static $availableColumns = [];
+}

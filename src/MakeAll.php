@@ -9,6 +9,7 @@ class MakeAll extends Command
 {
 	const STUBS = [
 		'model',
+		'filter',
 		'request_store',
 		'request_update',
 		'resource_index',
@@ -20,6 +21,7 @@ class MakeAll extends Command
 
 	const SUPER_STUBS = [
 		'model',
+		'filter',
 		'request_store',
 		'super_request_update',
 		'resource_index',
@@ -101,6 +103,8 @@ class MakeAll extends Command
 		// confirm namespace and name
 		if (!$this->confirm("Do you wish to continue with '<fg=red>{$this->namespace} \\ {$this->model}{$super}</>'?")) {
 			$this->error('Finished !!!');
+
+			return;
 		}
 
 		$this->generateByLaravel();
@@ -174,11 +178,13 @@ class MakeAll extends Command
 
 		// prepare replaces
 		$replaces = [
-			'DummyNamespace' => $this->namespace,
-			'dummyNamespace' => lcfirst($this->namespace),
-			'DummyName'      => $this->model,
-			'dummyNames'     => lcfirst(Str::plural($this->model)),
-			'dummyName'      => lcfirst($this->model),
+			'DummyNamespace'  => $this->namespace,
+			'dummyNamespace'  => lcfirst($this->namespace),
+			'dummy_namespace' => Str::snake($this->namespace),
+			'DummyName'       => $this->model,
+			'dummyNames'      => lcfirst(Str::plural($this->model)),
+			'dummyName'       => lcfirst($this->model),
+			'dummy_name'      => Str::snake($this->model),
 		];
 
 		// get and generate stub
@@ -195,6 +201,7 @@ class MakeAll extends Command
 		$this->filePaths['update_request'] = sprintf('%s/%s/Update%sRequest', $this->namespace, $this->model, $this->model);
 		$this->filePaths['store_request']  = sprintf('%s/%s/Store%sRequest', $this->namespace, $this->model, $this->model);
 		$this->filePaths['model']          = sprintf('Models/%s/%s', $this->namespace, $this->model);
+		$this->filePaths['filter']         = sprintf('Filters/%s/%s', $this->namespace, $this->model);
 		$this->filePaths['factory']        = sprintf('%sFactory', $this->model);
 		$this->filePaths['resource']       = sprintf('%s/%s/%sResource', $this->namespace, $this->model, $this->model);
 		$this->filePaths['collection']     = sprintf('%s/%s/%sCollection', $this->namespace, $this->model, $this->model);
@@ -210,6 +217,7 @@ class MakeAll extends Command
 		$this->fullFilePaths['request_update']       = sprintf('Http/Requests/%s/%s/Update%sRequest.php', $this->namespace, $this->model, $this->model);
 		$this->fullFilePaths['super_request_update'] = sprintf('Http/Requests/%s/%s/Update%sRequest.php', $this->namespace, $this->model, $this->model);
 		$this->fullFilePaths['model']                = sprintf('Models/%s/%s.php', $this->namespace, $this->model);
+		$this->fullFilePaths['filter']               = sprintf('Filters/%s/%s.php', $this->namespace, $this->model);
 		$this->fullFilePaths['resource_index']       = sprintf('Http/Resources/%s/%s/%sIndexResource.php', $this->namespace, $this->model, $this->model);
 		$this->fullFilePaths['resource_show']        = sprintf('Http/Resources/%s/%s/%sShowResource.php', $this->namespace, $this->model, $this->model);
 		$this->fullFilePaths['resource_list']        = sprintf('Http/Resources/%s/%s/%sListResource.php', $this->namespace, $this->model, $this->model);
@@ -251,9 +259,9 @@ class MakeAll extends Command
 
 			if (!isset($data[$namespace][$name]))
 				$data[$namespace][$name] = [
-					'store'   => '',
-					'update'  => '',
-					'destroy' => '',
+					'store'   => "The {$name} stored successfully.",
+					'update'  => "The {$name} updated successfully.",
+					'destroy' => "The {$name} deleted successfully.",
 				];
 
 
@@ -280,22 +288,22 @@ class MakeAll extends Command
 			$name      = Str::snake($this->model);
 
 			if (!isset($data['namespace'][$namespace]))
-				$data['namespace'][$namespace] = '';
+				$data['namespace'][$namespace] = Str::ucfirst($namespace);
 
 			if (!isset($data['controller'][$namespace][$name]))
-				$data['controller'][$namespace][$name] = '';
+				$data['controller'][$namespace][$name] = Str::ucfirst($name);
 
 			if (!isset($data['permissions']))
 				$data['permissions'] = [
-					'superIndex'   => '',
-					'index'        => '',
-					'store'        => '',
-					'superShow'    => '',
-					'show'         => '',
-					'superUpdate'  => '',
-					'update'       => '',
-					'superDestroy' => '',
-					'destroy'      => '',
+					'superIndex'   => 'Super index',
+					'index'        => 'index',
+					'store'        => 'store',
+					'superShow'    => 'Super show',
+					'show'         => 'Show',
+					'superUpdate'  => 'Super update',
+					'update'       => 'Update',
+					'superDestroy' => 'Super Destroy',
+					'destroy'      => 'Destroy',
 				];
 
 			$fileContent = $this->var_export($data);

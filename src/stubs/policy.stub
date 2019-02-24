@@ -17,7 +17,7 @@ class DummyNamePolicy
 	 */
 	public function index(User $user)
 	{
-		if ($user->can('dummyNamespace.dummyName.index')) {
+		if ($user->can('dummy_namespace.dummy_name.index')) {
 			return true;
 		}
 
@@ -32,7 +32,7 @@ class DummyNamePolicy
 	 */
 	public function store(User $user)
 	{
-		if ($user->can('dummyNamespace.dummyName.store')) {
+		if ($user->can('dummy_namespace.dummy_name.store')) {
 			return true;
 		}
 
@@ -48,7 +48,7 @@ class DummyNamePolicy
 	 */
 	public function show(User $user, DummyName $dummyName)
 	{
-		if ($user->can('dummyNamespace.dummyName.show')) {
+		if ($user->can('dummy_namespace.dummy_name.show')) {
 			return true;
 		}
 
@@ -64,7 +64,7 @@ class DummyNamePolicy
 	 */
 	public function update(User $user, DummyName $dummyName)
 	{
-		if ($user->can('dummyNamespace.dummyName.update')) {
+		if ($user->can('dummy_namespace.dummy_name.update')) {
 			return true;
 		}
 
@@ -80,7 +80,7 @@ class DummyNamePolicy
 	 */
 	public function destroy(User $user, DummyName $dummyName)
 	{
-		if ($user->can('dummyNamespace.dummyName.destroy')) {
+		if ($user->can('dummy_namespace.dummy_name.destroy')) {
 			return true;
 		}
 
@@ -95,7 +95,7 @@ class DummyNamePolicy
 	 */
 	public function list(User $user)
 	{
-		if ($user->can('dummyNamespace.dummyName.list')) {
+		if ($user->can('dummy_namespace.dummy_name.list')) {
 			return true;
 		}
 
