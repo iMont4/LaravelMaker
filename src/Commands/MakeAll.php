@@ -10,8 +10,8 @@ class MakeAll extends Command
 	const PATHS = [
 		'namespace'      => [
 			'controller'     => 'App\Http\Controllers\%route_kind%\%namespace%',
-			'request_update' => 'App\Http\Requests\%route_kind%\%namespace%',
-			'request_store'  => 'App\Http\Requests\%route_kind%\%namespace%',
+			'request_update' => 'App\Http\Requests\%route_kind%\%namespace%\%name%',
+			'request_store'  => 'App\Http\Requests\%route_kind%\%namespace%\%name%',
 			'model'          => 'App\Models\%namespace%',
 			'filter'         => 'App\Filters\%namespace%',
 			'resource_index' => 'App\Http\Resources\%route_kind%\%namespace%\%name%',
@@ -21,8 +21,8 @@ class MakeAll extends Command
 		],
 		'full_namespace' => [
 			'controller'     => 'App\Http\Controllers\%route_kind%\%namespace%\%name%Controller',
-			'request_update' => 'App\Http\Requests\%route_kind%\%namespace%\Update%name%Request',
-			'request_store'  => 'App\Http\Requests\%route_kind%\%namespace%\Store%name%Request',
+			'request_update' => 'App\Http\Requests\%route_kind%\%namespace%\%name%\Update%name%Request',
+			'request_store'  => 'App\Http\Requests\%route_kind%\%namespace%\%name%\Store%name%Request',
 			'model'          => 'App\Models\%namespace%\%name%',
 			'filter'         => 'App\Filters\%namespace%\%name%Filter',
 			'resource_index' => 'App\Http\Resources\%route_kind%\%namespace%\%name%\%name%IndexResource',
@@ -32,8 +32,8 @@ class MakeAll extends Command
 		],
 		'file_path'      => [
 			'controller'     => '%route_kind%/%namespace%/%name%Controller',
-			'request_update' => '%route_kind%/%namespace%/Update%name%Request',
-			'request_store'  => '%route_kind%/%namespace%/Store%name%Request',
+			'request_update' => '%route_kind%/%namespace%/%name%/Update%name%Request',
+			'request_store'  => '%route_kind%/%namespace%/%name%/Store%name%Request',
 			'model'          => 'Models/%namespace%/%name%',
 			'migration'      => 'create%plural_name%_table',
 			'filter'         => 'Filters/%namespace%/%name%Filter',
@@ -48,8 +48,8 @@ class MakeAll extends Command
 		],
 		'full_file_path' => [
 			'controller'     => 'app/Http/Controllers/%route_kind%/%namespace%/%name%Controller.php',
-			'request_update' => 'app/Http/Requests/%route_kind%/%namespace%/Update%name%Request.php',
-			'request_store'  => 'app/Http/Requests/%route_kind%/%namespace%/Store%name%Request.php',
+			'request_update' => 'app/Http/Requests/%route_kind%/%namespace%/%name%/Update%name%Request.php',
+			'request_store'  => 'app/Http/Requests/%route_kind%/%namespace%/%name%/Store%name%Request.php',
 			'model'          => 'app/Models/%namespace%/%name%.php',
 			'filter'         => 'app/Filters/%namespace%/%name%Filter.php', // TODO. with route kind or without
 			'factory'        => '%name%Factory.php',

@@ -10,8 +10,8 @@ class MakeMethod extends Command
 	const PATHS = [
 		'namespace'      => [
 			'controller'     => 'App\Http\Controllers\%route_kind%\%namespace%',
-			'request_update' => 'App\Http\Requests\%route_kind%\%namespace%',
-			'request_store'  => 'App\Http\Requests\%route_kind%\%namespace%',
+			'request_update' => 'App\Http\Requests\%route_kind%\%namespace%\%name%',
+			'request_store'  => 'App\Http\Requests\%route_kind%\%namespace%\%name%',
 			'model'          => 'App\Models\%namespace%',
 			'filter'         => 'App\Filters\%namespace%',
 			'resource_index' => 'App\Http\Resources\%route_kind%\%namespace%\%name%',
@@ -21,8 +21,8 @@ class MakeMethod extends Command
 		],
 		'full_namespace' => [
 			'controller'     => 'App\Http\Controllers\%route_kind%\%namespace%\%name%Controller',
-			'request_update' => 'App\Http\Requests\%route_kind%\%namespace%\%name%%method%Request',
-			'request_store'  => 'App\Http\Requests\%route_kind%\%namespace%\%name%%method%Request',
+			'request_update' => 'App\Http\Requests\%route_kind%\%namespace%\%name%\%name%%method%Request',
+			'request_store'  => 'App\Http\Requests\%route_kind%\%namespace%\%name%\%name%%method%Request',
 			'model'          => 'App\Models\%namespace%\%name%',
 			'filter'         => 'App\Filters\%namespace%\%name%Filter',
 			'resource_index' => 'App\Http\Resources\%route_kind%\%namespace%\%name%\%name%IndexResource',
@@ -32,8 +32,8 @@ class MakeMethod extends Command
 		],
 		'file_path'      => [
 			'controller'     => '%route_kind%/%namespace%/%name%Controller',
-			'request_update' => '%route_kind%/%namespace%/%name%%method%Request',
-			'request_store'  => '%route_kind%/%namespace%/%name%%method%Request',
+			'request_update' => '%route_kind%/%namespace%/%name%/%name%%method%Request',
+			'request_store'  => '%route_kind%/%namespace%/%name%/%name%%method%Request',
 			'model'          => 'Models/%namespace%/%name%',
 			'migration'      => 'create%plural_name%_table',
 			'filter'         => 'Filters/%namespace%/%name%Filter',
@@ -48,8 +48,8 @@ class MakeMethod extends Command
 		],
 		'full_file_path' => [
 			'controller'     => 'app/Http/Controllers/%route_kind%/%namespace%/%name%Controller.php',
-			'request_update' => 'app/Http/Requests/%route_kind%/%namespace%/%name%%method%Request.php',
-			'request_store'  => 'app/Http/Requests/%route_kind%/%namespace%/%name%%method%Request.php',
+			'request_update' => 'app/Http/Requests/%route_kind%/%namespace%/%name%/%name%%method%Request.php',
+			'request_store'  => 'app/Http/Requests/%route_kind%/%namespace%/%name%/%name%%method%Request.php',
 			'model'          => 'app/Models/%namespace%/%name%.php',
 			'filter'         => 'app/Filters/%namespace%/%name%Filter.php', // TODO. with route kind or without
 			'factory'        => '%name%Factory.php',
@@ -320,7 +320,7 @@ class MakeMethod extends Command
 					$data[$routeKind][$namespace][$model],
 					[
 						$method,
-						"super_$method"
+						"super_$method",
 					]
 				);
 			else
@@ -380,6 +380,9 @@ class MakeMethod extends Command
 		$fileContent = str_replace(array_keys($replaces), array_values($replaces), $stub);
 
 		if ($replace) {
+			if (!file_exists($this->paths['full_file_path'][$class]))
+				return;
+
 			// write stub in file
 			$fileData = file_get_contents($this->paths['full_file_path'][$class]);
 			$pos      = strrpos($fileData, '}');
