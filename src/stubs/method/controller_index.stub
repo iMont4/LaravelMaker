@@ -1,0 +1,18 @@
+
+	/**
+	 * @return DummyIndexResourceName
+	 */
+	public function dummyMethod()
+	{
+		if (!auth()->user()->can('DummyPermission', DummyModelName::class)) {
+			abort(500);
+		}
+
+		/** @var DummyModelName[] $dummyNames */
+		$dummyNames = DummyModelName::get();
+
+		/** @var DummyIndexResourceName $dummyNamesCollection */
+		$dummyNamesCollection = DummyIndexResourceName::collection($dummyNames);
+
+		return $dummyNamesCollection;
+	}

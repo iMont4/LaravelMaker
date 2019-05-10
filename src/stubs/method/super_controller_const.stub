@@ -1,0 +1,13 @@
+
+	public function dummyMethod()
+	{
+        if (auth()->user()->can('DummyPermission', DummyModelName::class)) {
+
+        } else if (auth()->user()->can('DummySuperPermission', DummyModelName::class)) {
+
+        } else {
+            abort(500);
+        }
+
+		return new ConstResource(DummyModelName::DummyConstName, 'attributes.dummy_namespace.dummy_name.dummy_const_name');
+	}

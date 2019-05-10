@@ -1,0 +1,174 @@
+<?php
+
+namespace App\Http\Controllers\DummyNamespace;
+
+use App\Http\Controllers\Controller;
+use DummyRequestStoreNamespace;
+use DummyRequestUpdateNamespace;
+use DummyResourceIndexNamespace;
+use DummyResourceShowNamespace;
+use DummyResourceListNamespace;
+use DummyModelNamespace;
+use Mont4\LaravelMaker\Resources\ConstResource;
+
+class DummyModelNameController extends Controller
+{
+	/**
+	 * @return DummyIndexResourceName
+	 */
+	public function index()
+	{
+		if (!auth()->user()->can('index', DummyModelName::class)) {
+			abort(500);
+		}
+
+		/** @var DummyModelName[] $dummyNames */
+		$dummyNames = DummyModelName::filter();
+
+		/** @var DummyIndexResourceName $dummyNamesCollection */
+		$dummyNamesCollection = DummyIndexResourceName::collection($dummyNames);
+
+		return $dummyNamesCollection;
+	}
+
+
+	/**
+	 * @param  DummyRequestStoreName $request
+	 *
+	 * @return mixed
+	 */
+	public function store(DummyRequestStoreName $request)
+	{
+		// prepare data
+		$attributes = $request->all();
+
+		\DB::beginTransaction();
+		try {
+			$dummyName = new DummyModelName();
+			$dummyName->fill($attributes);
+			$dummyName->save();
+
+			\DB::commit();
+
+			return [
+				'status'  => true,
+				'message' => trans('responses.dummy_route_kind.dummy_namespace.dummy_name.store'),
+				'id'      => $dummyName->id,
+			];
+		} catch (\Exception $ex) {
+			\DB::rollBack();
+
+			return [
+				'status'  => true,
+				'message' => $ex->getMessage(),
+			];
+		}
+	}
+
+
+	/**
+	 * @param  int $id
+	 *
+	 * @return DummyShowResourceName
+	 */
+	public function show($id)
+	{
+		/** @var DummyModelName $dummyName */
+		$dummyName = DummyModelName::findOrFail($id);
+
+		if (!auth()->user()->can('show', $dummyName)) {
+			abort(500);
+		}
+
+		$DummyNameResource = new DummyShowResourceName($dummyName);
+
+		return $DummyNameResource;
+	}
+
+
+	/**
+	 * @param  DummyRequestUpdateName $request
+	 * @param  int                    $id
+	 *
+	 * @return mixed
+	 */
+	public function update(DummyRequestUpdateName $request, $id)
+	{
+		/** @var DummyModelName $dummyName */
+		$dummyName = DummyModelName::findOrFail($id);
+
+		// prepare data
+		$attributes = $request->all();
+
+		\DB::beginTransaction();
+		try {
+			$dummyName->fill($attributes);
+			$dummyName->save();
+
+			\DB::commit();
+
+			return [
+				'status'  => true,
+				'message' => trans('responses.dummy_route_kind.dummy_namespace.dummy_name.update'),
+				'id'      => $dummyName->id,
+			];
+		} catch (\Exception $ex) {
+			\DB::rollBack();
+
+			\Log::error($ex->getMessage(), [
+				'user' => auth()->user(),
+			]);
+
+			return [
+				'status'  => false,
+				'message' => trans('responses.error'),
+			];
+		}
+	}
+
+
+	/**
+	 * @param  int $id
+	 *
+	 * @return mixed
+	 * @throws \Exception
+	 */
+	public function destroy($id)
+	{
+		/** @var DummyModelName $dummyName */
+		$dummyName = DummyModelName::findOrFail($id);
+
+		if (!auth()->user()->can('destroy', $dummyName)) {
+			abort(500);
+		}
+
+		$dummyName->delete();
+
+		return [
+			'status'  => true,
+			'message' => trans('responses.dummy_route_kind.dummy_namespace.dummy_name.destroy'),
+			'id'      => $dummyName->id,
+		];
+	}
+
+
+	/**
+	 * @return DummyListResourceName
+	 */
+	public function list()
+	{
+		if (!auth()->user()->can('list', DummyModelName::class)) {
+			abort(500);
+		}
+
+		/** @var DummyModelName $dummyNames */
+		$dummyNames = DummyModelName::query();
+
+		$dummyNames = $dummyNames->get();
+
+		/** @var DummyListResourceName $dummyNameListResource */
+		$dummyNameListResource = DummyListResourceName::collection($dummyNames);
+
+		return $dummyNameListResource;
+	}
+}

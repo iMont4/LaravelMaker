@@ -1,0 +1,33 @@
+
+    /**
+     * @param  DummyRequestStoreName $request
+     *
+     * @return mixed
+     */
+    public function dummyMethod(DummyRequestStoreName $request)
+    {
+        // prepare data
+        $attributes = $request->all();
+
+        \DB::beginTransaction();
+        try {
+            $dummyName = new DummyModelName();
+            $dummyName->fill($attributes);
+            $dummyName->save();
+
+            \DB::commit();
+
+            return [
+                'status'  => true,
+                'message' => trans('responses.dummy_route_kind.dummy_namespace.dummy_name.store'),
+                'id'      => $dummyName->id,
+            ];
+        } catch (\Exception $ex) {
+            \DB::rollBack();
+
+            return [
+                'status'  => true,
+                'message' => $ex->getMessage(),
+            ];
+        }
+    }

@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Models\DummyNamespace;
+namespace DummyNamespace;
 
-use App\Models\VertaTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Mont4\Filter\Filterable;
@@ -10,21 +9,19 @@ use Mont4\Filter\Filterable;
 /**
  * Class DummyName
  *
- * @package App\Models\DummyNamespace
+ * @package DummyNamespace
  *
- * @property int         $id
+ * @property int    $id
  *
- * @property Carbon      $created_at
- * @property-read string $created_at_translate
- * @property Carbon      $updated_at
- * @property-read string $updated_at_translate
- * @property Carbon      $deleted_at
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ * @property Carbon $deleted_at
  *
  * ------------------------------------ Get Attributes ------------------------------------
  */
-class DummyName extends Model
+class DummyModelName extends Model
 {
-	use Filterable, VertaTrait;
+	use Filterable;
 
 	protected $fillable = [
 

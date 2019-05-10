@@ -1,0 +1,9 @@
+
+	public function dummyMethod()
+	{
+		if (!auth()->user()->can('DummyPermission', DummyModelName::class)) {
+			abort(500);
+		}
+
+		return new ConstResource(DummyModelName::DummyConstName, 'attributes.dummy_namespace.dummy_name.dummy_const_name');
+	}

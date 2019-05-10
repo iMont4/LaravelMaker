@@ -4,7 +4,7 @@ namespace App\Filters\DummyNamespace;
 
 use Mont4\Filter\Filter;
 
-class DummyNameFilter extends Filter
+class DummyFilterName extends Filter
 {
 	static $availableColumns = [];
 }

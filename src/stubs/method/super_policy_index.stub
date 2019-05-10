@@ -1,0 +1,28 @@
+
+	/**
+	 * @param DummyUserModelName $user
+	 *
+	 * @return mixed
+	 */
+	public function DummyRouteKindSuperDummyMethod(DummyUserModelName $user)
+	{
+		if ($user->can('dummy_route_kind.dummy_namespace.dummy_name.super_dummy_method')) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * @param DummyUserModelName $user
+	 *
+	 * @return mixed
+	 */
+	public function DummyRouteKindDummyMethod(DummyUserModelName $user)
+	{
+		if ($user->can('dummy_route_kind.dummy_namespace.dummy_name.dummy_method')) {
+			return true;
+		}
+
+		return false;
+	}

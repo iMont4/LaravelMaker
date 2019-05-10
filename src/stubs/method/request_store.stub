@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Http\Requests\DummyNamespace\DummyName;
+namespace DummyNamespace;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Models\DummyNamespace\DummyName;
+use DummyModelNamespace;
 
 
 /**
  * Class StoreDummyNameRequest
  *
- * @package App\Http\Requests\DummyNamespace\DummyName
+ * @package DummyNamespace
  *
  * @property-read int $id
  */
-class StoreDummyNameRequest extends FormRequest
+class DummyRequestStoreName extends FormRequest
 {
 	/**
 	 * Determine if the user is authorized to make this request.
@@ -22,7 +22,7 @@ class StoreDummyNameRequest extends FormRequest
 	 */
 	public function authorize()
 	{
-		if (auth()->user()->can('store', DummyName::class)) {
+		if (auth()->user()->can('DummyPermission', DummyModelName::class)) {
 			return true;
 		}
 

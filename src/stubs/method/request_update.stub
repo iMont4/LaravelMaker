@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Http\Requests\DummyNamespace\DummyName;
+namespace DummyNamespace;
 
-use App\Models\DummyNamespace\DummyName;
+use DummyModelNamespace;
 use Illuminate\Foundation\Http\FormRequest;
 
 
 /**
  * Class UpdateDummyNameRequest
  *
- * @package App\Http\Requests\DummyNamespace\DummyName
+ * @package DummyNamespace
  *
  * @property-read int $id
  */
-class UpdateDummyNameRequest extends FormRequest
+class DummyRequestUpdateName extends FormRequest
 {
 	/**
 	 * Determine if the user is authorized to make this request.
@@ -22,12 +22,10 @@ class UpdateDummyNameRequest extends FormRequest
 	 */
 	public function authorize()
 	{
-		/** @var DummyName $dummyName */
-		$dummyName = DummyName::findOrFail($this->route('dummy_name'));
+		/** @var DummyModelName $dummyName */
+		$dummyName = DummyModelName::findOrFail($this->route('dummy_name'));
 
-		if (auth()->user()->can('update', $dummyName)) {
-			return true;
-		} else if (auth()->user()->can('superUpdate', $dummyName)) {
+		if (auth()->user()->can('DummyPermission', $dummyName)) {
 			return true;
 		}
 

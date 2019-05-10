@@ -2,6 +2,12 @@
 
 `LaravelMaker` changes.
 
+## Version 3.0
+
+### Added
+- make:method
+- global scope of routes
+
 ## Version 2.0
 
 ### Added

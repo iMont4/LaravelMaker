@@ -3,8 +3,11 @@
 namespace Mont4\LaravelMaker;
 
 use Illuminate\Support\ServiceProvider;
+use Mont4\LaravelMaker\Commands\MakeAll;
+use Mont4\LaravelMaker\Commands\MakeMethod;
+use Mont4\LaravelMaker\Commands\SyncPermission;
 
-class MakerServiceProvider extends ServiceProvider
+class LaravelMakerServiceProvider extends ServiceProvider
 {
 	/**
 	 * Perform post-registration booting of services.
@@ -13,9 +16,9 @@ class MakerServiceProvider extends ServiceProvider
 	 */
 	public function boot()
 	{
-		// $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'mont4');
+		$this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'mont4');
 		// $this->loadViewsFrom(__DIR__.'/../resources/views', 'mont4');
-		// $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+		$this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
 		// $this->loadRoutesFrom(__DIR__.'/routes.php');
 
 		// Publishing is only necessary when using the CLI.
@@ -32,6 +35,11 @@ class MakerServiceProvider extends ServiceProvider
 	public function register()
 	{
 		$this->mergeConfigFrom(__DIR__ . '/../config/laravel_maker.php', 'laravel_maker');
+
+		// Register the service the package provides.
+		$this->app->singleton('laravelmaker', function ($app) {
+			return new LaravelMaker;
+		});
 	}
 
 	/**
@@ -41,7 +49,7 @@ class MakerServiceProvider extends ServiceProvider
 	 */
 	public function provides()
 	{
-		return ['laravel_maker'];
+		return ['laravelmaker'];
 	}
 
 	/**
@@ -54,23 +62,30 @@ class MakerServiceProvider extends ServiceProvider
 		// Publishing the configuration file.
 		$this->publishes([
 			__DIR__ . '/../config/laravel_maker.php' => config_path('laravel_maker.php'),
-		], 'laravel_maker.config');
+		], 'laravel+maker.config');
 		$this->publishes([
 			__DIR__ . '/../config/permission.php' => config_path('permission.php'),
 		], 'config');
 
-		// publish migrations
-		if (!class_exists('CreatePermissionTables')) {
-			$timestamp = date('Y_m_d_His', time());
+		// Publishing the views.
+		/*$this->publishes([
+			__DIR__.'/../resources/views' => base_path('resources/views/vendor/mont4'),
+		], 'laravelmaker.views');*/
 
-			$this->publishes([
-				__DIR__ . '/../database/migrations/create_permission_tables.php.stub' => $this->app->databasePath() . "/migrations/{$timestamp}_create_permission_tables.php",
-			], 'migrations');
-		}
+		// Publishing assets.
+		/*$this->publishes([
+			__DIR__.'/../resources/assets' => public_path('vendor/mont4'),
+		], 'laravelmaker.views');*/
+
+		// Publishing the translation files.
+		/*$this->publishes([
+			__DIR__.'/../resources/lang' => resource_path('lang/vendor/mont4'),
+		], 'laravelmaker.views');*/
 
 		// Registering package commands.
 		$this->commands([
 			MakeAll::class,
+			MakeMethod::class,
 			SyncPermission::class,
 		]);
 	}

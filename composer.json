@@ -1,7 +1,7 @@
 {
     "name": "mont4/laravel_maker",
     "description": ":description",
-    "license": "MIT",
+    "license": "license",
     "authors": [
         {
             "name": "Mohammad Montazeri",
@@ -10,7 +10,7 @@
         }
     ],
     "homepage": "https://github.com/Mont4/LaravelMaker",
-    "keywords": ["Laravel", "Maker"],
+    "keywords": ["Laravel", "LaravelMaker"],
     "require": {
         "illuminate/support": "~5",
         "spatie/laravel-permission": "~2"
@@ -34,7 +34,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Mont4\\LaravelMaker\\MakerServiceProvider"
+                "Mont4\\LaravelMaker\\LaravelMakerServiceProvider"
             ]
         }
     }

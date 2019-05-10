@@ -1,0 +1,17 @@
+
+    /**
+     * @param  DummyUserModelName $user
+     * @param  DummyModelName     $dummyName
+     *
+     * @return mixed
+     */
+    public function DummyRouteKindDummyMethod(DummyUserModelName $user, DummyModelName $dummyName)
+    {
+        if ($user->can('dummy_route_kind.dummy_namespace.dummy_name.dummy_method')) {
+            if ($dummyName->created_by_id == $user->id) {
+                return true;
+            }
+        }
+
+        return false;
+    }

@@ -1,0 +1,19 @@
+
+    /**
+     * @param  int $id
+     *
+     * @return DummyShowResourceName
+     */
+    public function dummyMethod($id)
+    {
+        /** @var DummyModelName $dummyName */
+        $dummyName = DummyModelName::findOrFail($id);
+
+        if (!auth()->user()->can('DummyPermission', $dummyName)) {
+            abort(500);
+        }
+
+        $DummyNameResource = new DummyShowResourceName($dummyName);
+
+        return $DummyNameResource;
+    }

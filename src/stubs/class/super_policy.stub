@@ -1,0 +1,173 @@
+<?php
+
+namespace App\Policies\User;
+
+use DummyModelNamespace;
+use DummyUserModelNamespace;
+use Illuminate\Auth\Access\HandlesAuthorization;
+
+class DummyModelNamePolicy
+{
+	use HandlesAuthorization;
+
+	// ------------------------------------ DummyRouteKind ------------------------------------
+
+	/**
+	 * @param  DummyUserModelName $user
+	 *
+	 * @return mixed
+	 */
+	public function DummyRouteKindSuperIndex(DummyUserModelName $user)
+	{
+		if ($user->can('dummy_route_kind.dummy_namespace.dummy_name.super_index')) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * @param  DummyUserModelName $user
+	 *
+	 * @return mixed
+	 */
+	public function DummyRouteKindIndex(DummyUserModelName $user)
+	{
+		if ($user->can('dummy_route_kind.dummy_namespace.dummy_name.index')) {
+			return true;
+		}
+
+		return false;
+	}
+
+
+	/**
+	 * @param  DummyUserModelName $user
+	 *
+	 * @return mixed
+	 */
+	public function DummyRouteKindStore(DummyUserModelName $user)
+	{
+		if ($user->can('dummy_route_kind.dummy_namespace.dummy_name.store')) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * @param  DummyUserModelName $user
+	 * @param  DummyModelName     $dummyName
+	 *
+	 * @return mixed
+	 */
+	public function DummyRouteKindSuperShow(DummyUserModelName $user, DummyModelName $dummyName)
+	{
+		if ($user->can('dummy_route_kind.dummy_namespace.dummy_name.super_show')) {
+			return true;
+		}
+
+		return false;
+	}
+
+
+	/**
+	 * @param  DummyUserModelName $user
+	 * @param  DummyModelName     $dummyName
+	 *
+	 * @return mixed
+	 */
+	public function DummyRouteKindShow(DummyUserModelName $user, DummyModelName $dummyName)
+	{
+		if ($user->can('dummy_route_kind.dummy_namespace.dummy_name.show')) {
+			if ($dummyName->created_by_id == $user->id) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+
+	/**
+	 * @param  DummyUserModelName $user
+	 * @param  DummyModelName     $dummyName
+	 *
+	 * @return mixed
+	 */
+	public function DummyRouteKindSuperUpdate(DummyUserModelName $user, DummyModelName $dummyName)
+	{
+		if ($user->can('dummy_route_kind.dummy_namespace.dummy_name.super_update')) {
+			return true;
+		}
+
+		return false;
+	}
+
+
+	/**
+	 * @param  DummyUserModelName $user
+	 * @param  DummyModelName     $dummyName
+	 *
+	 * @return mixed
+	 */
+	public function DummyRouteKindUpdate(DummyUserModelName $user, DummyModelName $dummyName)
+	{
+		if ($user->can('dummy_route_kind.dummy_namespace.dummy_name.update')) {
+			if ($dummyName->created_by_id == $user->id) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+
+	/**
+	 * @param  DummyUserModelName $user
+	 * @param  DummyModelName     $dummyName
+	 *
+	 * @return mixed
+	 */
+	public function DummyRouteKindSuperDestroy(DummyUserModelName $user, DummyModelName $dummyName)
+	{
+		if ($user->can('dummy_route_kind.dummy_namespace.dummy_name.super_destroy')) {
+			return true;
+		}
+
+		return false;
+	}
+
+
+	/**
+	 * @param  DummyUserModelName $user
+	 * @param  DummyModelName     $dummyName
+	 *
+	 * @return mixed
+	 */
+	public function DummyRouteKindDestroy(DummyUserModelName $user, DummyModelName $dummyName)
+	{
+		if ($user->can('dummy_route_kind.dummy_namespace.dummy_name.destroy')) {
+			if ($dummyName->created_by_id == $user->id) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+
+	/**
+	 * @param  DummyUserModelName $user
+	 *
+	 * @return mixed
+	 */
+	public function DummyRouteKindList(DummyUserModelName $user)
+	{
+		if ($user->can('dummy_route_kind.dummy_namespace.dummy_name.list')) {
+			return true;
+		}
+
+		return false;
+	}
+}

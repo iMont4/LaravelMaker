@@ -1,0 +1,46 @@
+<?php
+
+namespace DummyNamespace;
+
+use DummyModelNamespace;
+use Illuminate\Foundation\Http\FormRequest;
+
+
+/**
+ * Class UpdateDummyNameRequest
+ *
+ * @package DummyNamespace
+ *
+ * @property-read int $id
+ */
+class DummyRequestUpdateName extends FormRequest
+{
+	/**
+	 * Determine if the user is authorized to make this request.
+	 *
+	 * @return bool
+	 */
+	public function authorize()
+	{
+		/** @var DummyModelName $dummyName */
+		$dummyName = DummyModelName::findOrFail($this->route('dummy_name'));
+
+		if (auth()->user()->can('update', $dummyName)) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Get the validation rules that apply to the request.
+	 *
+	 * @return array
+	 */
+	public function rules()
+	{
+		$rules = [];
+
+		return $rules;
+	}
+}

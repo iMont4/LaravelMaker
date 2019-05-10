@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Http\Resources\DummyNamespace\DummyName;
+namespace DummyNamespace;
 
-use App\Models\DummyNamespace\DummyName;
+use DummyModelNamespace;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * Class DummyNameListResource
+ * Class DummyShowResourceName
  *
- * @package App\Http\Resources\DummyNamespace\DummyName
+ * @package DummyNamespace
  *
- * @mixin DummyName
+ * @mixin DummyModelName
  */
-class DummyNameListResource extends JsonResource
+class DummyShowResourceName extends JsonResource
 {
 	/**
 	 * Transform the resource into an array.
