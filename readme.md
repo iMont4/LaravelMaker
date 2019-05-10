@@ -13,7 +13,7 @@ Via Composer
 
 ``` bash
 $ composer require mont4/laravelmaker
-$ php artisan vendor:publish --provider="Mont4\LaravelMaker\LaravelMakerServiceProvider" --tag="migrations"
+$ php artisan vendor:publish --provider="Mont4\LaravelMaker\LaravelMakerServiceProvider"
 ```
 
 ## Usage

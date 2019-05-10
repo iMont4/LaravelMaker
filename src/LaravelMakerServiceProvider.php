@@ -35,11 +35,6 @@ class LaravelMakerServiceProvider extends ServiceProvider
 	public function register()
 	{
 		$this->mergeConfigFrom(__DIR__ . '/../config/laravel_maker.php', 'laravel_maker');
-
-		// Register the service the package provides.
-		$this->app->singleton('laravelmaker', function ($app) {
-			return new LaravelMaker;
-		});
 	}
 
 	/**
@@ -62,10 +57,10 @@ class LaravelMakerServiceProvider extends ServiceProvider
 		// Publishing the configuration file.
 		$this->publishes([
 			__DIR__ . '/../config/laravel_maker.php' => config_path('laravel_maker.php'),
-		], 'laravel+maker.config');
+		], 'LaravelMaker');
 		$this->publishes([
 			__DIR__ . '/../config/permission.php' => config_path('permission.php'),
-		], 'config');
+		], 'LaravelMaker');
 
 		// Publishing the views.
 		/*$this->publishes([
@@ -81,6 +76,13 @@ class LaravelMakerServiceProvider extends ServiceProvider
 		/*$this->publishes([
 			__DIR__.'/../resources/lang' => resource_path('lang/vendor/mont4'),
 		], 'laravelmaker.views');*/
+
+		if (!class_exists('CreatePermissionTables')) {
+			$timestamp = date('Y_m_d_His', time());
+			$this->publishes([
+				__DIR__ . '/../database/migrations/create_permission_tables.php.stub' => $this->app->databasePath() . "/migrations/{$timestamp}_create_permission_tables.php",
+			], 'LaravelMaker');
+		}
 
 		// Registering package commands.
 		$this->commands([
