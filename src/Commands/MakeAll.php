@@ -184,7 +184,7 @@ class MakeAll extends Command
 		if(!file_exists($this->paths['full_file_path']['model']))
 			$this->call('make:migration', [
 				'name'     => $this->paths['file_path']['migration'],
-				'--create' => $this->model,
+				'--create' => lcfirst(Str::snake(Str::plural($this->model))),
 			]);
 
 		// factory

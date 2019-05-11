@@ -25,9 +25,13 @@
 		} catch (\Exception $ex) {
 			\DB::rollBack();
 
-			return [
-				'status'  => true,
-				'message' => $ex->getMessage(),
-			];
+            \Log::error($ex->getMessage(), [
+                'user' => auth()->user(),
+            ]);
+
+            return [
+                'status'  => false,
+                'message' => trans('responses.error'),
+            ];
 		}
 	}

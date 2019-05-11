@@ -23,6 +23,17 @@ $ php artisan make:all
 $ php artisan permission:sync
 $ php artisan make:method
 ```
+
+Add to boot() method in App\Providers\AuthServiceProvider
+
+```php
+Gate::guessPolicyNamesUsing(function ($modelClass) {
+    $path = str_replace("\\Models\\", "\\Policies\\", $modelClass) . 'Policy';
+
+    return $path;
+});
+```
+
 ## Change log
 
 Please see the [changelog](changelog.md) for more information on what has changed recently.

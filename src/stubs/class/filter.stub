@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filters\DummyNamespace;
+namespace DummyNamespace;
 
 use Mont4\Filter\Filter;
 
