@@ -1,6 +1,6 @@
 {
     "name": "mont4/laravel_maker",
-    "description": "php artisan make:all for Laravel with Make and generate Laravel \"Controller, Request, Model, Factory, Seed, Migration, Translation, Policy & Permissions\" compatible.",
+    "description": "php artisan make:all for Laravel with Make and generate Laravel 'Controller, Request, Model, Factory, Seed, Migration, Translation, Policy & Permissions' compatible.",
     "license": "license",
     "authors": [
         {
