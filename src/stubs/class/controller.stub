@@ -84,9 +84,9 @@ class DummyModelNameController extends Controller
 			abort(500);
 		}
 
-		$DummyNameResource = new DummyShowResourceName($dummyName);
+		$dummyNameResource = new DummyShowResourceName($dummyName);
 
-		return $DummyNameResource;
+		return $dummyNameResource;
 	}
 
 

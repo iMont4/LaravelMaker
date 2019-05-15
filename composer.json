@@ -13,7 +13,8 @@
     "keywords": ["Laravel", "LaravelMaker"],
     "require": {
         "illuminate/support": "~5",
-        "spatie/laravel-permission": "~2"
+        "spatie/laravel-permission": "~2",
+        "mont4/filter": "~2"
     },
     "require-dev": {
         "phpunit/phpunit": "~7.0",

@@ -1,0 +1,6 @@
+Route::group(['prefix' => 'dummy_route_kind', 'namespace' => 'DummyRouteKind'], function () {
+	Route::group(['prefix' => 'dummy_namespace', 'namespace' => 'DummyNamespace'], function () {
+		Route::get('dummy_name/list', 'DummyModelNameController@list');
+		Route::apiResource('dummy_name', 'DummyModelNameController');
+	});
+});

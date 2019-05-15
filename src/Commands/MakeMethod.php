@@ -111,21 +111,39 @@ class MakeMethod extends Command
 	 */
 	public function handle()
 	{
-		$this->getInformation(); // make method
+		$status = $this->getInformation(); // make method
+		if (!$status) {
+			return;
+		}
+
 		$this->generatePaths(); // make method
 		$this->makeTranslate(); // make method
 		$this->makePermissionTranslate(); // make method
 		$this->makePermissionList(); // make method
 		$this->generateStub();
+		$this->generateRoute();
 	}
 
-	private function getInformation() :void
+	private function getInformation()
 	{
 		$this->routeKind = Str::ucfirst(Str::camel($this->choice('Please choose the route kind?', config('laravel_maker.route_kinds'), config('laravel_maker.route_kind_default'))));
 
-		$this->namespace = Str::ucfirst(Str::camel(($this->choice('Please choose the namespace?', $this->getCurrentNamespace($this->routeKind)))));
+		$currentNamespaces = $this->getCurrentNamespace();
+		if (!count($currentNamespaces)) {
+			$this->error("'$this->routeKind' has not any namespace!");
 
-		$this->model = Str::ucfirst(Str::camel($this->choice('Please choose model?', $this->getCurrentModels($this->namespace))));
+			return false;
+		}
+
+		$this->namespace = Str::ucfirst(Str::camel(($this->choice('Please choose the namespace?', $currentNamespaces))));
+
+		$currentModels = $this->getCurrentModels();
+		if (!count($currentModels)) {
+			$this->error("'$this->routeKind / $this->namespace' has not any namespace!");
+
+			return false;
+		}
+		$this->model = Str::ucfirst(Str::camel($this->choice('Please choose model?', $currentModels)));
 
 		$this->type = Str::ucfirst(Str::camel($this->choice('Please choose type?', ['Get', 'Post', 'Const'])));
 
@@ -140,7 +158,11 @@ class MakeMethod extends Command
 		$this->info("------------------------------------------------------------------------");
 		$this->info("\t\t\tRoute kind: '<fg=red>$this->routeKind</>'");
 		$this->info("\t\t\t Namespace: '<fg=red>$this->namespace</>'");
-		$this->info("\t\t\t      Name: '<fg=red>$this->model</>'");
+		$this->info("\t\t\t     Model: '<fg=red>$this->model</>'");
+		$this->info("");
+		$this->info("\t\t\t    Method: '<fg=red>$this->method</>'");
+		$this->info("\t\t\t      Type: '<fg=red>$this->type</>'");
+		$this->info("\t\t\t        ID: '<fg=red>" . ($this->id ? 'true' : 'false') . "</>'");
 		$this->info("\t\t\tSuper mode: '<fg=red>" . ($this->super ? 'true' : 'false') . "</>'");
 		$this->info("------------------------------------------------------------------------");
 
@@ -149,8 +171,10 @@ class MakeMethod extends Command
 		if (!$this->confirm("Do you wish to continue with '<fg=red>$this->routeKind \\ {$this->namespace} \\ {$this->model}" . ($this->super ? ' (Super mode)' : '') . "</>'?")) {
 			$this->error('Finished !!!');
 
-			return;
+			return false;
 		}
+
+		return true;
 	}
 
 	private function getCurrentNamespace() :array
@@ -359,6 +383,17 @@ class MakeMethod extends Command
 		}
 	}
 
+	private function generateRoute() :void
+	{
+		$replaces = $this->generateReplaces();
+
+		$stub        = file_get_contents(__dir__ . "/../stubs/method/routes.stub");
+		$fileContent = str_replace(array_keys($replaces), array_values($replaces), $stub);
+
+		$this->info("Add to your routes.");
+		$this->line($fileContent);
+	}
+
 	/**
 	 * @param       $class
 	 * @param null  $stubClass
@@ -395,7 +430,7 @@ class MakeMethod extends Command
 		file_put_contents($this->paths['full_file_path'][$class], $fileContent);
 	}
 
-	private function generateReplaces($class)
+	private function generateReplaces($class = NULL)
 	{
 		// prepare replaces
 		$userModelNamespace      = config('laravel_maker.user_model');
@@ -403,7 +438,7 @@ class MakeMethod extends Command
 		$userModelName           = array_pop($userModelNamespaceItems);
 
 		$replaces = [
-			'DummyNamespace'              => $this->paths['namespace'][$class],
+			'DummyNamespace'              => $class ? $this->paths['namespace'][$class] : $this->namespace,
 			'DummyModelNamespace'         => $this->paths['full_namespace']['model'],
 			'DummyRequestStoreNamespace'  => $this->paths['full_namespace']['request_store'],
 			'DummyRequestUpdateNamespace' => $this->paths['full_namespace']['request_update'],
@@ -438,6 +473,7 @@ class MakeMethod extends Command
 			'dummy_method'     => Str::snake($this->method),
 			'dummy_const_name' => Str::snake($this->method),
 			'DummyConstName'   => Str::upper(Str::snake($this->method)),
+			'dummy_type'       => $this->type == 'Post' ? 'post' : 'get',
 		];
 
 		return $replaces;

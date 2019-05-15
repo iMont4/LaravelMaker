@@ -19,7 +19,7 @@
 
             return [
                 'status'  => true,
-                'message' => trans('responses.dummy_route_kind.dummy_namespace.dummy_name.store'),
+                'message' => trans('responses.dummy_route_kind.dummy_namespace.dummy_name.dummy_method'),
                 'id'      => $dummyName->id,
             ];
         } catch (\Exception $ex) {

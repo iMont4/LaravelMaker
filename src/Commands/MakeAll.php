@@ -113,20 +113,25 @@ class MakeAll extends Command
 	 */
 	public function handle()
 	{
-		$this->getInformation(); // make method
-		$this->generatePaths(); // make method
+		$status = $this->getInformation();
+		if (!$status) {
+			return;
+		}
+
+		$this->generatePaths();
 		$this->generateByLaravel();
-		$this->makeTranslate(); // make method
-		$this->makePermissionTranslate(); // make method
-		$this->makePermissionList(); // make method
+		$this->makeTranslate();
+		$this->makePermissionTranslate();
+		$this->makePermissionList();
 		$this->generateStub();
+		$this->generateRoute();
 	}
 
-	private function getInformation() :void
+	private function getInformation()
 	{
 		$this->routeKind = Str::ucfirst(Str::camel($this->choice('Please enter or choose the route kind?', config('laravel_maker.route_kinds'), config('laravel_maker.route_kind_default'))));
 
-		$this->namespace = Str::ucfirst(Str::camel(($this->anticipate('Please enter or choose the namespace?', $this->getCurrentNamespace($this->routeKind)))));
+		$this->namespace = Str::ucfirst(Str::camel(($this->anticipate('Please enter or choose the namespace?', $this->getCurrentNamespace()))));
 
 		$this->model = Str::ucfirst(Str::camel($this->ask('Please enter name?')));
 
@@ -144,8 +149,10 @@ class MakeAll extends Command
 		if (!$this->confirm("Do you wish to continue with '<fg=red>$this->routeKind \\ {$this->namespace} \\ {$this->model}" . ($this->super ? ' (Super mode)' : '') . "</>'?")) {
 			$this->error('Finished !!!');
 
-			return;
+			return false;
 		}
+
+		return true;
 	}
 
 	private function getCurrentNamespace() :array
@@ -181,7 +188,7 @@ class MakeAll extends Command
 		]);
 
 		// migration
-		if(!file_exists($this->paths['full_file_path']['model']))
+		if (!file_exists($this->paths['full_file_path']['model']))
 			$this->call('make:migration', [
 				'name'     => $this->paths['file_path']['migration'],
 				'--create' => lcfirst(Str::snake(Str::plural($this->model))),
@@ -350,6 +357,18 @@ class MakeAll extends Command
 		}
 	}
 
+	private function generateRoute() :void
+	{
+		$replaces = $this->generateReplaces();
+
+		$stub        = file_get_contents(__dir__ . "/../stubs/class/routes.stub");
+		$fileContent = str_replace(array_keys($replaces), array_values($replaces), $stub);
+
+
+		$this->info("Add to your routes.");
+		$this->line($fileContent);
+	}
+
 	/**
 	 * @param       $class
 	 * @param null  $stubClass
@@ -383,7 +402,7 @@ class MakeAll extends Command
 		file_put_contents($this->paths['full_file_path'][$class], $fileContent);
 	}
 
-	private function generateReplaces($class)
+	private function generateReplaces($class = null)
 	{
 		// prepare replaces
 		$userModelNamespace      = config('laravel_maker.user_model');
@@ -391,7 +410,7 @@ class MakeAll extends Command
 		$userModelName           = array_pop($userModelNamespaceItems);
 
 		$replaces = [
-			'DummyNamespace'              => $this->paths['namespace'][$class],
+			'DummyNamespace'              => $class ? $this->paths['namespace'][$class] : $this->namespace,
 			'DummyModelNamespace'         => $this->paths['full_namespace']['model'],
 			'DummyRequestStoreNamespace'  => $this->paths['full_namespace']['request_store'],
 			'DummyRequestUpdateNamespace' => $this->paths['full_namespace']['request_update'],
@@ -412,12 +431,12 @@ class MakeAll extends Command
 			'DummyListResourceName'  => "{$this->model}ListResource",
 
 
-			'dummy_route_kind' => Str::snake($this->routeKind),
-			'DummyRouteKind'   => $this->routeKind,
-			'dummy_namespace'  => Str::snake($this->namespace),
-			'dummyNames'       => lcfirst(Str::plural($this->model)),
-			'dummyName'        => lcfirst($this->model),
-			'dummy_name'       => Str::snake($this->model),
+			'dummy_route_kind'   => Str::snake($this->routeKind),
+			'DummyRouteKind'     => $this->routeKind,
+			'dummy_namespace'    => Str::snake($this->namespace),
+			'dummyNames'         => lcfirst(Str::plural($this->model)),
+			'dummyName'          => lcfirst($this->model),
+			'dummy_name'         => Str::snake($this->model),
 		];
 
 		return $replaces;

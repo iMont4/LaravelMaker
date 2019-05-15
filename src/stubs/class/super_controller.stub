@@ -3,13 +3,12 @@
 namespace DummyNamespace;
 
 use App\Http\Controllers\Controller;
+use DummyModelNamespace;
 use DummyRequestStoreNamespace;
 use DummyRequestUpdateNamespace;
 use DummyResourceIndexNamespace;
-use DummyResourceShowNamespace;
 use DummyResourceListNamespace;
-use DummyModelNamespace;
-use Mont4\LaravelMaker\Resources\ConstResource;
+use DummyResourceShowNamespace;
 
 class DummyModelNameController extends Controller
 {
@@ -18,12 +17,12 @@ class DummyModelNameController extends Controller
 	 */
 	public function index()
 	{
-		if (auth()->user()->can('DummyRouteKindIndex', DummyModelName::class)) {
+		if (auth()->user()->can('DummyRouteKindSuperIndex', DummyModelName::class)) {
 
-		} else if (auth()->user()->can('DummyRouteKindSuperIndex', DummyModelName::class)) {
+		} else if (auth()->user()->can('DummyRouteKindIndex', DummyModelName::class)) {
 
 		} else {
-			abort(500);
+			abort(403);
 		}
 
 		/** @var DummyModelName[] $dummyNames */
@@ -55,7 +54,7 @@ class DummyModelNameController extends Controller
 			\DB::commit();
 
 			return [
-				'status'  => true,
+				'success' => true,
 				'message' => trans('responses.dummy_route_kind.dummy_namespace.dummy_name.store'),
 				'id'      => $dummyName->id,
 			];
@@ -67,7 +66,7 @@ class DummyModelNameController extends Controller
 			]);
 
 			return [
-				'status'  => false,
+				'success' => false,
 				'message' => trans('responses.error'),
 			];
 		}
@@ -84,17 +83,17 @@ class DummyModelNameController extends Controller
 		/** @var DummyModelName $dummyName */
 		$dummyName = DummyModelName::findOrFail($id);
 
-		if (auth()->user()->can('DummyRouteKindShow', $dummyName)) {
+		if (auth()->user()->can('DummyRouteKindSuperShow', $dummyName)) {
 
-		} else if (auth()->user()->can('DummyRouteKindSuperShow', DummyModelName::class)) {
+		} else if (auth()->user()->can('DummyRouteKindShow', $dummyName)) {
 
 		} else {
-			abort(500);
+			abort(403);
 		}
 
-		$DummyNameResource = new DummyShowResourceName($dummyName);
+		$dummyNameResource = new DummyShowResourceName($dummyName);
 
-		return $DummyNameResource;
+		return $dummyNameResource;
 	}
 
 
@@ -120,7 +119,7 @@ class DummyModelNameController extends Controller
 			\DB::commit();
 
 			return [
-				'status'  => true,
+				'success' => true,
 				'message' => trans('responses.dummy_route_kind.dummy_namespace.dummy_name.update'),
 				'id'      => $dummyName->id,
 			];
@@ -132,7 +131,7 @@ class DummyModelNameController extends Controller
 			]);
 
 			return [
-				'status'  => false,
+				'success' => false,
 				'message' => trans('responses.error'),
 			];
 		}
@@ -150,18 +149,18 @@ class DummyModelNameController extends Controller
 		/** @var DummyModelName $dummyName */
 		$dummyName = DummyModelName::findOrFail($id);
 
-		if (auth()->user()->can('DummyRouteKindDestroy', $dummyName)) {
+		if (auth()->user()->can('DummyRouteKindSuperDestroy', $dummyName)) {
 
-		} else if (auth()->user()->can('DummyRouteKindSuperDestroy', DummyModelName::class)) {
+		} else if (auth()->user()->can('DummyRouteKindDestroy', $dummyName)) {
 
 		} else {
-			abort(500);
+			abort(403);
 		}
 
 		$dummyName->delete();
 
 		return [
-			'status'  => true,
+			'success' => true,
 			'message' => trans('responses.dummy_route_kind.dummy_namespace.dummy_name.destroy'),
 			'id'      => $dummyName->id,
 		];
@@ -174,7 +173,7 @@ class DummyModelNameController extends Controller
 	public function list()
 	{
 		if (!auth()->user()->can('DummyRouteKindList', DummyModelName::class)) {
-			abort(500);
+			abort(403);
 		}
 
 		/** @var DummyModelName $dummyNames */
