@@ -87,7 +87,9 @@ class DummyModelNamePolicy
 	public function DummyRouteKindDestroy(DummyUserModelName $user, DummyModelName $dummyName)
 	{
 		if ($user->can('dummy_route_kind.dummy_namespace.dummy_name.destroy')) {
-			return true;
+			if ($dummyName->created_by_id == $user->id) {
+				return true;
+			}
 		}
 
 		return false;

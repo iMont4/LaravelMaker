@@ -50,7 +50,7 @@ class DummyModelNameController extends Controller
 			\DB::commit();
 
 			return [
-				'status'  => true,
+				'success' => true,
 				'message' => trans('responses.dummy_route_kind.dummy_namespace.dummy_name.store'),
 				'id'      => $dummyName->id,
 			];
@@ -62,7 +62,7 @@ class DummyModelNameController extends Controller
 			]);
 
 			return [
-				'status'  => false,
+				'success' => false,
 				'message' => trans('responses.error'),
 			];
 		}
@@ -111,7 +111,7 @@ class DummyModelNameController extends Controller
 			\DB::commit();
 
 			return [
-				'status'  => true,
+				'success' => true,
 				'message' => trans('responses.dummy_route_kind.dummy_namespace.dummy_name.update'),
 				'id'      => $dummyName->id,
 			];
@@ -123,7 +123,7 @@ class DummyModelNameController extends Controller
 			]);
 
 			return [
-				'status'  => false,
+				'success' => false,
 				'message' => trans('responses.error'),
 			];
 		}
@@ -148,7 +148,7 @@ class DummyModelNameController extends Controller
 		$dummyName->delete();
 
 		return [
-			'status'  => true,
+			'success' => true,
 			'message' => trans('responses.dummy_route_kind.dummy_namespace.dummy_name.destroy'),
 			'id'      => $dummyName->id,
 		];

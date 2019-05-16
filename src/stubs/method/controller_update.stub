@@ -5,7 +5,7 @@
      *
      * @return mixed
      */
-    public function update(DummyRequestUpdateName $request, $id)
+    public function dummyMethod(DummyRequestUpdateName $request, $id)
     {
         /** @var DummyModelName $dummyName */
         $dummyName = DummyModelName::findOrFail($id);
@@ -21,7 +21,7 @@
             \DB::commit();
 
             return [
-                'status'  => true,
+                'success' => true,
                 'message' => trans('responses.dummy_route_kind.dummy_namespace.dummy_name.dummy_method'),
                 'id'      => $dummyName->id,
             ];
@@ -33,7 +33,7 @@
             ]);
 
             return [
-                'status'  => false,
+                'success' => false,
                 'message' => trans('responses.error'),
             ];
         }
