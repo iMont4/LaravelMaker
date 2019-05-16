@@ -1,0 +1,5 @@
+Route::group(['prefix' => 'dummy_route_kind', 'namespace' => 'DummyRouteKind'], function () {
+	Route::group(['prefix' => 'dummy_namespace', 'namespace' => 'DummyNamespace'], function () {
+		Route::dummy_type('dummy_name/{dummy_name}/dummy_method', 'DummyModelNameController@dummyMethod');
+	});
+});

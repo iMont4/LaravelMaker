@@ -395,9 +395,15 @@ class MakeMethod extends Command
 	{
 		$replaces = $this->generateReplaces();
 
-		$stub        = file_get_contents(__dir__ . "/../stubs/method/routes.stub");
+		$name        = "routes";
+		if($this->id){
+			$name = "routes_with_id";
+		}
+
+		$stub        = file_get_contents(__dir__ . "/../stubs/method/{$name}.stub");
 		$fileContent = str_replace(array_keys($replaces), array_values($replaces), $stub);
 
+		$this->line('------------------------------------------------------------------------');
 		$this->info("Add to your routes.");
 		$this->line($fileContent);
 	}

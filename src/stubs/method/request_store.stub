@@ -7,7 +7,7 @@ use DummyModelNamespace;
 
 
 /**
- * Class StoreDummyNameRequest
+ * Class DummyRequestStoreName
  *
  * @package DummyNamespace
  *

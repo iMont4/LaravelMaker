@@ -93,15 +93,12 @@ class DummyModelNameController extends Controller
 
 	/**
 	 * @param  DummyRequestUpdateName $request
-	 * @param  int                    $id
+	 * @param  DummyModelName         $dummyName
 	 *
 	 * @return mixed
 	 */
-	public function update(DummyRequestUpdateName $request, $id)
+	public function update(DummyRequestUpdateName $request, DummyModelName $dummyName)
 	{
-		/** @var DummyModelName $dummyName */
-		$dummyName = DummyModelName::findOrFail($id);
-
 		// prepare data
 		$attributes = $request->all();
 
@@ -133,16 +130,13 @@ class DummyModelNameController extends Controller
 
 
 	/**
-	 * @param  int $id
+	 * @param  DummyModelName $dummyName
 	 *
 	 * @return mixed
 	 * @throws \Exception
 	 */
-	public function destroy($id)
+	public function destroy(DummyModelName $dummyName)
 	{
-		/** @var DummyModelName $dummyName */
-		$dummyName = DummyModelName::findOrFail($id);
-
 		if (auth()->user()->can('DummyRouteKindSuperDestroy', $dummyName)) {
 		} else if (auth()->user()->can('DummyRouteKindDestroy', $dummyName)) {
 		} else {

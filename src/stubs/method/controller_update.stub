@@ -1,11 +1,11 @@
 
     /**
      * @param  DummyRequestUpdateName $request
-     * @param  int                    $id
+     * @param  DummyModelName         $dummyName
      *
      * @return mixed
      */
-    public function dummyMethod(DummyRequestUpdateName $request, $id)
+    public function dummyMethod(DummyRequestUpdateName $request, DummyModelName $dummyName)
     {
         /** @var DummyModelName $dummyName */
         $dummyName = DummyModelName::findOrFail($id);

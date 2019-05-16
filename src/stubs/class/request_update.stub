@@ -11,7 +11,7 @@ use Illuminate\Foundation\Http\FormRequest;
  *
  * @package DummyNamespace
  *
- * @property-read int $id
+ * @property-read DummyModelName $dummyName
  */
 class DummyRequestUpdateName extends FormRequest
 {
@@ -22,10 +22,7 @@ class DummyRequestUpdateName extends FormRequest
 	 */
 	public function authorize()
 	{
-		/** @var DummyModelName $dummyName */
-		$dummyName = DummyModelName::findOrFail($this->route('dummy_name'));
-
-		if (auth()->user()->can('DummyRouteKindUpdate', $dummyName)) {
+		if (auth()->user()->can('DummyRouteKindUpdate', $this->dummyName)) {
 			return true;
 		}
 
