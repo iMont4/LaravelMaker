@@ -18,7 +18,7 @@ class DummyModelNameController extends Controller
 	 */
 	public function index()
 	{
-		if (!auth()->user()->can('index', DummyModelName::class)) {
+		if (!auth()->user()->can('DummyRouteKindIndex', DummyModelName::class)) {
 			abort(500);
 		}
 
@@ -80,7 +80,7 @@ class DummyModelNameController extends Controller
 		/** @var DummyModelName $dummyName */
 		$dummyName = DummyModelName::findOrFail($id);
 
-		if (!auth()->user()->can('show', $dummyName)) {
+		if (!auth()->user()->can('DummyRouteKindShow', $dummyName)) {
 			abort(500);
 		}
 
@@ -142,7 +142,7 @@ class DummyModelNameController extends Controller
 		/** @var DummyModelName $dummyName */
 		$dummyName = DummyModelName::findOrFail($id);
 
-		if (!auth()->user()->can('destroy', $dummyName)) {
+		if (!auth()->user()->can('DummyRouteKindDestroy', $dummyName)) {
 			abort(500);
 		}
 
@@ -161,7 +161,7 @@ class DummyModelNameController extends Controller
 	 */
 	public function list()
 	{
-		if (!auth()->user()->can('list', DummyModelName::class)) {
+		if (!auth()->user()->can('DummyRouteKindList', DummyModelName::class)) {
 			abort(500);
 		}
 

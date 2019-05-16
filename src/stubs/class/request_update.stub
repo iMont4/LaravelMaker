@@ -25,7 +25,7 @@ class DummyRequestUpdateName extends FormRequest
 		/** @var DummyModelName $dummyName */
 		$dummyName = DummyModelName::findOrFail($this->route('dummy_name'));
 
-		if (auth()->user()->can('update', $dummyName)) {
+		if (auth()->user()->can('DummyRouteKindUpdate', $dummyName)) {
 			return true;
 		}
 

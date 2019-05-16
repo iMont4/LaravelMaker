@@ -22,7 +22,7 @@ class DummyRequestStoreName extends FormRequest
 	 */
 	public function authorize()
 	{
-		if (auth()->user()->can('store', DummyModelName::class)) {
+		if (auth()->user()->can('DummyRouteKindStore', DummyModelName::class)) {
 			return true;
 		}
 
