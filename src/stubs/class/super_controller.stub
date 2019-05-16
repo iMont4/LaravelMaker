@@ -4,6 +4,8 @@ namespace DummyNamespace;
 
 use App\Http\Controllers\Controller;
 use DummyModelNamespace;
+use DummyRequestIndexNamespace;
+use DummyRequestListNamespace;
 use DummyRequestStoreNamespace;
 use DummyRequestUpdateNamespace;
 use DummyResourceIndexNamespace;
@@ -13,18 +15,12 @@ use DummyResourceShowNamespace;
 class DummyModelNameController extends Controller
 {
 	/**
+	 * @param  DummyRequestIndexName $request
+	 *
 	 * @return DummyIndexResourceName
 	 */
-	public function index()
+	public function index(DummyRequestIndexName $request)
 	{
-		if (auth()->user()->can('DummyRouteKindSuperIndex', DummyModelName::class)) {
-
-		} else if (auth()->user()->can('DummyRouteKindIndex', DummyModelName::class)) {
-
-		} else {
-			abort(403);
-		}
-
 		/** @var DummyModelName[] $dummyNames */
 		$dummyNames = DummyModelName::filter();
 
@@ -84,9 +80,7 @@ class DummyModelNameController extends Controller
 		$dummyName = DummyModelName::findOrFail($id);
 
 		if (auth()->user()->can('DummyRouteKindSuperShow', $dummyName)) {
-
 		} else if (auth()->user()->can('DummyRouteKindShow', $dummyName)) {
-
 		} else {
 			abort(403);
 		}
@@ -150,9 +144,7 @@ class DummyModelNameController extends Controller
 		$dummyName = DummyModelName::findOrFail($id);
 
 		if (auth()->user()->can('DummyRouteKindSuperDestroy', $dummyName)) {
-
 		} else if (auth()->user()->can('DummyRouteKindDestroy', $dummyName)) {
-
 		} else {
 			abort(403);
 		}
@@ -168,9 +160,11 @@ class DummyModelNameController extends Controller
 
 
 	/**
+	 * @param  DummyRequestListName $request
+	 *
 	 * @return DummyListResourceName
 	 */
-	public function list()
+	public function list(DummyRequestListName $request)
 	{
 		if (!auth()->user()->can('DummyRouteKindList', DummyModelName::class)) {
 			abort(403);

@@ -2,18 +2,16 @@
 
 namespace DummyNamespace;
 
-use DummyModelNamespace;
 use Illuminate\Foundation\Http\FormRequest;
+use DummyModelNamespace;
 
 
 /**
- * Class DummyRequestUpdateName
+ * Class DummyRequestIndexName
  *
  * @package DummyNamespace
- *
- * @property-read int $id
  */
-class DummyRequestUpdateName extends FormRequest
+class DummyRequestIndexName extends FormRequest
 {
 	/**
 	 * Determine if the user is authorized to make this request.
@@ -22,10 +20,9 @@ class DummyRequestUpdateName extends FormRequest
 	 */
 	public function authorize()
 	{
-		/** @var DummyModelName $dummyName */
-		$dummyName = DummyModelName::findOrFail($this->route('dummy_name'));
-
-		if (auth()->user()->can('DummyRouteKindUpdate', $dummyName)) {
+		if (auth()->user()->can('DummyRouteKindSuperIndex', DummyModelName::class)) {
+			return true;
+		} else if (auth()->user()->can('DummyRouteKindIndex', DummyModelName::class)) {
 			return true;
 		}
 

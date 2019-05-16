@@ -6,7 +6,7 @@ use DummyModelNamespace;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * Class DummyResourceName
+ * Class DummyIndexResourceName
  *
  * @package DummyNamespace
  *

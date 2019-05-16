@@ -10,6 +10,8 @@ class MakeAll extends Command
 	const PATHS = [
 		'namespace'      => [
 			'controller'     => 'App\Http\Controllers\%route_kind%\%namespace%',
+			'request_index'  => 'App\Http\Requests\%route_kind%\%namespace%\%name%',
+			'request_list'   => 'App\Http\Requests\%route_kind%\%namespace%\%name%',
 			'request_update' => 'App\Http\Requests\%route_kind%\%namespace%\%name%',
 			'request_store'  => 'App\Http\Requests\%route_kind%\%namespace%\%name%',
 			'model'          => 'App\Models\%namespace%',
@@ -21,6 +23,8 @@ class MakeAll extends Command
 		],
 		'full_namespace' => [
 			'controller'     => 'App\Http\Controllers\%route_kind%\%namespace%\%name%Controller',
+			'request_index'  => 'App\Http\Requests\%route_kind%\%namespace%\%name%\%name%IndexRequest',
+			'request_list'   => 'App\Http\Requests\%route_kind%\%namespace%\%name%\%name%ListRequest',
 			'request_update' => 'App\Http\Requests\%route_kind%\%namespace%\%name%\Update%name%Request',
 			'request_store'  => 'App\Http\Requests\%route_kind%\%namespace%\%name%\Store%name%Request',
 			'model'          => 'App\Models\%namespace%\%name%',
@@ -32,6 +36,8 @@ class MakeAll extends Command
 		],
 		'file_path'      => [
 			'controller'     => '%route_kind%/%namespace%/%name%Controller',
+			'request_index'  => '%route_kind%/%namespace%/%name%/%name%IndexRequest',
+			'request_list'   => '%route_kind%/%namespace%/%name%/%name%ListRequest',
 			'request_update' => '%route_kind%/%namespace%/%name%/Update%name%Request',
 			'request_store'  => '%route_kind%/%namespace%/%name%/Store%name%Request',
 			'model'          => 'Models/%namespace%/%name%',
@@ -48,6 +54,8 @@ class MakeAll extends Command
 		],
 		'full_file_path' => [
 			'controller'     => 'app/Http/Controllers/%route_kind%/%namespace%/%name%Controller.php',
+			'request_index'  => 'app/Http/Requests/%route_kind%/%namespace%/%name%/%name%IndexRequest.php',
+			'request_list'   => 'app/Http/Requests/%route_kind%/%namespace%/%name%/%name%ListRequest.php',
 			'request_update' => 'app/Http/Requests/%route_kind%/%namespace%/%name%/Update%name%Request.php',
 			'request_store'  => 'app/Http/Requests/%route_kind%/%namespace%/%name%/Store%name%Request.php',
 			'model'          => 'app/Models/%namespace%/%name%.php',
@@ -66,6 +74,8 @@ class MakeAll extends Command
 	const STUBS = [
 		'model',
 		'filter',
+		'request_index',
+		'request_list',
 		'request_store',
 		'request_update',
 		'resource_index',
@@ -402,7 +412,7 @@ class MakeAll extends Command
 		file_put_contents($this->paths['full_file_path'][$class], $fileContent);
 	}
 
-	private function generateReplaces($class = null)
+	private function generateReplaces($class = NULL)
 	{
 		// prepare replaces
 		$userModelNamespace      = config('laravel_maker.user_model');
@@ -412,6 +422,8 @@ class MakeAll extends Command
 		$replaces = [
 			'DummyNamespace'              => $class ? $this->paths['namespace'][$class] : $this->namespace,
 			'DummyModelNamespace'         => $this->paths['full_namespace']['model'],
+			'DummyRequestIndexNamespace'  => $this->paths['full_namespace']['request_index'],
+			'DummyRequestListNamespace'   => $this->paths['full_namespace']['request_list'],
 			'DummyRequestStoreNamespace'  => $this->paths['full_namespace']['request_store'],
 			'DummyRequestUpdateNamespace' => $this->paths['full_namespace']['request_update'],
 			'DummyResourceIndexNamespace' => $this->paths['full_namespace']['resource_index'],
@@ -420,6 +432,8 @@ class MakeAll extends Command
 
 			'DummyModelName'         => $this->model,
 			'DummyFilterName'        => "{$this->model}Filter",
+			'DummyRequestIndexName'  => "{$this->model}IndexRequest",
+			'DummyRequestListName'   => "{$this->model}ListRequest",
 			'DummyRequestStoreName'  => "Store{$this->model}Request",
 			'DummyRequestUpdateName' => "Update{$this->model}Request",
 
@@ -431,12 +445,12 @@ class MakeAll extends Command
 			'DummyListResourceName'  => "{$this->model}ListResource",
 
 
-			'dummy_route_kind'   => Str::snake($this->routeKind),
-			'DummyRouteKind'     => $this->routeKind,
-			'dummy_namespace'    => Str::snake($this->namespace),
-			'dummyNames'         => lcfirst(Str::plural($this->model)),
-			'dummyName'          => lcfirst($this->model),
-			'dummy_name'         => Str::snake($this->model),
+			'dummy_route_kind' => Str::snake($this->routeKind),
+			'DummyRouteKind'   => $this->routeKind,
+			'dummy_namespace'  => Str::snake($this->namespace),
+			'dummyNames'       => lcfirst(Str::plural($this->model)),
+			'dummyName'        => lcfirst($this->model),
+			'dummy_name'       => Str::snake($this->model),
 		];
 
 		return $replaces;

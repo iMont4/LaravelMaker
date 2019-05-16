@@ -3,25 +3,24 @@
 namespace DummyNamespace;
 
 use App\Http\Controllers\Controller;
+use DummyModelNamespace;
+use DummyRequestIndexNamespace;
+use DummyRequestListNamespace;
 use DummyRequestStoreNamespace;
 use DummyRequestUpdateNamespace;
 use DummyResourceIndexNamespace;
-use DummyResourceShowNamespace;
 use DummyResourceListNamespace;
-use DummyModelNamespace;
-use Mont4\LaravelMaker\Resources\ConstResource;
+use DummyResourceShowNamespace;
 
 class DummyModelNameController extends Controller
 {
 	/**
+	 * @param  DummyRequestIndexName $request
+	 *
 	 * @return DummyIndexResourceName
 	 */
-	public function index()
+	public function index(DummyRequestIndexName $request)
 	{
-		if (!auth()->user()->can('DummyRouteKindIndex', DummyModelName::class)) {
-			abort(500);
-		}
-
 		/** @var DummyModelName[] $dummyNames */
 		$dummyNames = DummyModelName::filter();
 
@@ -157,14 +156,12 @@ class DummyModelNameController extends Controller
 
 
 	/**
+	 * @param  DummyRequestListName $request
+	 *
 	 * @return DummyListResourceName
 	 */
-	public function list()
+	public function list(DummyRequestListName $request)
 	{
-		if (!auth()->user()->can('DummyRouteKindList', DummyModelName::class)) {
-			abort(500);
-		}
-
 		/** @var DummyModelName $dummyNames */
 		$dummyNames = DummyModelName::query();
 

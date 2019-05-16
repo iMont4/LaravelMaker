@@ -1,17 +1,11 @@
 
     /**
+     * @param  DummyRequestIndexName $request
+     *
      * @return DummyIndexResourceName
      */
-    public function dummyMethod()
+    public function dummyMethod(DummyRequestIndexName $request)
     {
-        if (auth()->user()->can('DummyPermission', DummyModelName::class)) {
-
-        } else if (auth()->user()->can('DummySuperPermission', DummyModelName::class)) {
-
-        } else {
-            abort(500);
-        }
-
         /** @var DummyModelName[] $dummyNames */
         $dummyNames = DummyModelName::get();
 

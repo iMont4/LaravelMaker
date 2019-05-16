@@ -7,11 +7,9 @@ use DummyModelNamespace;
 
 
 /**
- * Class StoreDummyNameRequest
+ * Class DummyRequestStoreName
  *
  * @package DummyNamespace
- *
- * @property-read int $id
  */
 class DummyRequestStoreName extends FormRequest
 {
