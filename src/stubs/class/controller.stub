@@ -70,15 +70,12 @@ class DummyModelNameController extends Controller
 
 
 	/**
-	 * @param  int $id
+	 * @param  DummyModelName $dummyName
 	 *
 	 * @return DummyShowResourceName
 	 */
-	public function show($id)
+	public function show(DummyModelName $dummyName)
 	{
-		/** @var DummyModelName $dummyName */
-		$dummyName = DummyModelName::findOrFail($id);
-
 		if (!auth()->user()->can('DummyRouteKindShow', $dummyName)) {
 			abort(500);
 		}

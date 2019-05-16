@@ -1,14 +1,11 @@
 
     /**
-     * @param  int $id
+     * @param  DummyModelName $dummyName
      *
      * @return DummyShowResourceName
      */
-    public function dummyMethod($id)
+    public function dummyMethod(DummyModelName $dummyName)
     {
-        /** @var DummyModelName $dummyName */
-        $dummyName = DummyModelName::findOrFail($id);
-
         if (!auth()->user()->can('DummyPermission', $dummyName)) {
             abort(500);
         }
