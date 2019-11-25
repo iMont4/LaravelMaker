@@ -22,9 +22,9 @@ class DummyRequestUpdateName extends FormRequest
 	 */
 	public function authorize()
 	{
-		if (auth()->user()->can('super_update', $this->dummyName)) {
+		if (auth()->user()->can('DummyRouteKindSuperUpdate', $this->dummyName)) {
 			return true;
-		} else if (auth()->user()->can('update', $this->dummyName)) {
+		} else if (auth()->user()->can('DummyRouteKindUpdate', $this->dummyName)) {
 			return true;
 		}
 
