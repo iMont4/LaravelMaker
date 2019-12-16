@@ -33,7 +33,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Mont4\\LaravelMaker\\LaravelMakerServiceProvider"
+                "Mont4\\LaravelMaker\\ServiceProvider"
             ]
         }
     }
