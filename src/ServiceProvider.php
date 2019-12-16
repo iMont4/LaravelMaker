@@ -2,12 +2,12 @@
 
 namespace Mont4\LaravelMaker;
 
-use Illuminate\Support\ServiceProvider;
+use Mont4\LaravelMaker\Commands\RemoveAll;
 use Mont4\LaravelMaker\Commands\MakeAll;
 use Mont4\LaravelMaker\Commands\MakeMethod;
 use Mont4\LaravelMaker\Commands\SyncPermission;
 
-class LaravelMakerServiceProvider extends ServiceProvider
+class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
 	/**
 	 * Perform post-registration booting of services.
@@ -87,6 +87,7 @@ class LaravelMakerServiceProvider extends ServiceProvider
 		// Registering package commands.
 		$this->commands([
 			MakeAll::class,
+			RemoveAll::class,
 			MakeMethod::class,
 			SyncPermission::class,
 		]);

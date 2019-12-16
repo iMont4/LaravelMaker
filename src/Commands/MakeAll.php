@@ -239,7 +239,7 @@ class MakeAll extends Command
 			$namespace = Str::snake($this->namespace);
 			$name      = Str::snake($this->model);
 
-			if (!isset($data[$namespace][$name]))
+			if (!isset($data[$routeKind][$namespace][$name]))
 				$data[$routeKind][$namespace][$name] = [
 					'store'   => trans('mont4::response.api.store', ['name' => $name]),
 					'update'  => trans('mont4::response.api.update', ['name' => $name]),
