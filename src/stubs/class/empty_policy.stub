@@ -1,0 +1,15 @@
+<?php
+
+namespace DummyNamespace;
+
+use DummyModelNamespace;
+use DummyUserModelNamespace;
+use Illuminate\Auth\Access\HandlesAuthorization;
+
+class DummyModelNamePolicy
+{
+	use HandlesAuthorization;
+
+	// ------------------------------------ DummyRouteKind ------------------------------------
+
+}

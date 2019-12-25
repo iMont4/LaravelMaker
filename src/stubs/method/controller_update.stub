@@ -7,9 +7,6 @@
      */
     public function dummyMethod(DummyRequestUpdateName $request, DummyModelName $dummyName)
     {
-        /** @var DummyModelName $dummyName */
-        $dummyName = DummyModelName::findOrFail($id);
-
         // prepare data
         $attributes = $request->all();
 
