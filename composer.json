@@ -12,7 +12,7 @@
     "homepage": "https://github.com/Mont4/LaravelMaker",
     "keywords": ["Laravel", "LaravelMaker"],
     "require": {
-        "illuminate/support": "~6",
+        "illuminate/support": ">=6.0",
         "spatie/laravel-permission": "~3",
         "mont4/filter": "^2.0"
     },
